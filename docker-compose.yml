@@ -1,9 +1,17 @@
-# Docker compose files will all go here.
-
+version: '3'
+services:
 # Keycloak
 
 # Database
 
 # Backend
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
 
 # Frontend
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
