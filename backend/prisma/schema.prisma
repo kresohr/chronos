@@ -12,3 +12,16 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id         Int      @id @default(autoincrement())
+  keycloakId String   @unique // Keycloak User ID
+  email      String   @unique // User's email (should be managed by Keycloak)
+  firstName  String?
+  lastName   String?
+  isAdmin    Boolean
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([keycloakId])
+}
