@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
+import C_Sidebar from './components/C_Sidebar.vue'
 </script>
 
 <template>
   <header>
     <div class="wrapper">
       <nav>
-        <RouterLink to="/">Home</RouterLink>
+        <C_Sidebar />
       </nav>
     </div>
   </header>
@@ -14,7 +15,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <RouterView />
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .wrapper {
   display: flex;
   flex-direction: column;
