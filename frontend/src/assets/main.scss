@@ -1,0 +1,61 @@
+@import './variables';
+
+:root {
+  // Colors
+  --background-color: #{$background-color};
+  --primary-text-color: #{$primary-text-color};
+  --secondary-text-color: #{$secondary-text-color};
+
+  // Border
+  --border-radius: #{$border-radius};
+  --border-width: #{$border-width};
+
+  // Spacing
+  --padding-small: #{$padding-small};  // 8px
+  --padding-medium: #{$padding-medium}; // 16px
+  --padding-large: #{$padding-large};  // 24px
+
+  --margin-small: #{$margin-small};    // 8px
+  --margin-medium: #{$margin-medium};  // 16px
+  --margin-large: #{$margin-large};    // 32px
+
+  --gap-small: #{$gap-small};          // 8px
+  --gap-medium: #{$gap-medium};        // 16px
+  --gap-large: #{$gap-large};          // 24px
+
+  // Fonts
+  --font-size-small: #{$font-size-small};  // 14px
+  --font-size-base: #{$font-size-base};    // 16px
+  --font-size-medium: #{$font-size-medium}; // 18px
+  --font-size-large: #{$font-size-large};  // 24px
+  --font-size-xl: #{$font-size-xl};        // 32px
+
+  --font-weight-regular: #{$font-weight-regular};
+  --font-weight-bold: #{$font-weight-bold};
+  --line-height: #{$line-height};
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+  text-align: center;
+}
+
+body {
+  color: $primary-text-color;
+}
+
+p {
+  color: $secondary-text-color;
+}
+
+h1 {
+  text-align: center;
+  font-size: $font-size-xl;
+}
+
+html {
+  background-color: $background-color;
+}
