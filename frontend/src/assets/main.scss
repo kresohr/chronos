@@ -1,61 +1,73 @@
-@import './variables';
+@use './variables';
 
 :root {
   // Colors
-  --background-color: #{$background-color};
-  --primary-text-color: #{$primary-text-color};
-  --secondary-text-color: #{$secondary-text-color};
+  --background-color: #{variables.$background-color};
+  --primary-text-color: #{variables.$primary-text-color};
+  --secondary-text-color: #{variables.$secondary-text-color};
+  --navbar-link-color: #{variables.$navbar-link-color};
+
+  // Buttons
+  --primary-button-color: #{variables.$primary-button-color};
 
   // Border
-  --border-radius: #{$border-radius};
-  --border-width: #{$border-width};
+  --border-radius: #{variables.$border-radius};
+  --border-width: #{variables.$border-width};
 
   // Spacing
-  --padding-small: #{$padding-small};  // 8px
-  --padding-medium: #{$padding-medium}; // 16px
-  --padding-large: #{$padding-large};  // 24px
+  --padding-small: #{variables.$padding-small};  // 8px
+  --padding-medium: #{variables.$padding-medium}; // 16px
+  --padding-large: #{variables.$padding-large};  // 24px
 
-  --margin-small: #{$margin-small};    // 8px
-  --margin-medium: #{$margin-medium};  // 16px
-  --margin-large: #{$margin-large};    // 32px
+  --margin-small: #{variables.$margin-small};    // 8px
+  --margin-medium: #{variables.$margin-medium};  // 16px
+  --margin-large: #{variables.$margin-large};    // 32px
 
-  --gap-small: #{$gap-small};          // 8px
-  --gap-medium: #{$gap-medium};        // 16px
-  --gap-large: #{$gap-large};          // 24px
+  --gap-small: #{variables.$gap-small};          // 8px
+  --gap-medium: #{variables.$gap-medium};        // 16px
+  --gap-large: #{variables.$gap-large};          // 24px
 
   // Fonts
-  --font-size-small: #{$font-size-small};  // 14px
-  --font-size-base: #{$font-size-base};    // 16px
-  --font-size-medium: #{$font-size-medium}; // 18px
-  --font-size-large: #{$font-size-large};  // 24px
-  --font-size-xl: #{$font-size-xl};        // 32px
+  --font-size-small: #{variables.$font-size-small};  // 14px
+  --font-size-base: #{variables.$font-size-base};    // 16px
+  --font-size-medium: #{variables.$font-size-medium}; // 18px
+  --font-size-large: #{variables.$font-size-large};  // 24px
+  --font-size-xl: #{variables.$font-size-xl};        // 32px
 
-  --font-weight-regular: #{$font-weight-regular};
-  --font-weight-bold: #{$font-weight-bold};
-  --line-height: #{$line-height};
+  --font-weight-regular: #{variables.$font-weight-regular};
+  --font-weight-bold: #{variables.$font-weight-bold};
+  --line-height: #{variables.$line-height};
 }
 
+/* The rest of your CSS is correct as-is */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 #app {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
+  padding-left: 60px;
+  text-align: center;
   font-weight: normal;
   text-align: center;
 }
 
 body {
-  color: $primary-text-color;
+  color: variables.$primary-text-color;
 }
 
 p {
-  color: $secondary-text-color;
+  color: variables.$secondary-text-color;
 }
 
 h1 {
   text-align: center;
-  font-size: $font-size-xl;
+  font-size: variables.$font-size-xl;
 }
 
 html {
-  background-color: $background-color;
+  background-color: variables.$background-color;
 }
