@@ -1,9 +1,13 @@
 <template>
-  <router-link :to="to" class="link" :class="{ active: isActive }">
-    <fa-icon :icon="[`${faType}`, `${iconName}`]"></fa-icon>
+  <router-link
+    :to="to"
+    class="link-wrapper"
+    :class="[{ 'link-wrapper--admin': isAdmin }, { 'link-wrapper--active': isActive }]"
+  >
+    <fa-icon :icon="[`${faType}`, `${iconName}`]" class="link-icon"></fa-icon>
     <Transition name="fade">
-      <span v-show="!isCollapsed">
-        <slot style="text-decoration: none"></slot>
+      <span v-show="!isCollapsed" class="link-text" :class="[{ 'link-text--active': isActive }]">
+        <slot></slot>
       </span>
     </Transition>
   </router-link>
@@ -24,6 +28,7 @@ const props = defineProps({
     required: true,
   },
   iconName: { type: String, required: true },
+  isAdmin: { type: Boolean, default: false },
 })
 
 const route = useRoute()
@@ -31,23 +36,52 @@ const isActive = computed(() => route.path === props.to)
 </script>
 
 <style scoped lang="scss">
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.1s ease;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+.fade-slide-enter-active {
+  transition: all 0.5s ease-out;
 }
 
-.fade-enter,
-.fade-leave-to {
-  transition: opacity 0;
+.fade-slide-leave-active {
+  transition: all 0.3s ease-in;
 }
 
-.link {
-  display: flex;
-  gap: var(--gap-small);
-  align-items: center;
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateX(8px);
+}
+
+.link-wrapper {
   cursor: pointer;
   font-weight: 400;
   color: #ffffff;
-  padding: var(--padding-small);
+  height: 60px;
+  margin-top: var(--margin-small);
+
+  &--active {
+    color: var(--primary-button-color);
+  }
+
+  &--admin {
+    margin-top: auto;
+    margin-bottom: 70px;
+  }
+}
+
+.link-icon {
+  margin-top: var(--margin-medium);
+  height: 22px;
+  width: 22px;
+}
+
+.link-text {
+  text-wrap: nowrap;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+
+  &--active {
+    font-weight: 700;
+  }
 }
 </style>
