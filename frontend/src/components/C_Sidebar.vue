@@ -1,6 +1,23 @@
 <template>
   <div class="sidebar" :style="{ width: sidebarWidth }">
-    <C_SidebarLink to="/" faType="fas" iconName="fa-house">Home</C_SidebarLink>
+    <C_SidebarLink to="/" faType="fas" iconName="fa-house"
+      ><p class="sidebar__link">Home</p></C_SidebarLink
+    >
+    <C_SidebarLink to="/log" faType="fas" iconName="circle-plus"
+      ><p class="sidebar__link">Add Log</p></C_SidebarLink
+    >
+    <C_SidebarLink to="/projects" faType="fas" iconName="briefcase"
+      ><p class="sidebar__link">Projects</p></C_SidebarLink
+    >
+    <C_SidebarLink to="/team" faType="fas" iconName="user-group"
+      ><p class="sidebar__link">Team</p></C_SidebarLink
+    >
+    <C_SidebarLink to="/reports" faType="fas" iconName="chart-column"
+      ><p class="sidebar__link">Reports</p></C_SidebarLink
+    >
+    <C_SidebarLink to="/admin" faType="fas" iconName="user-tie" :isAdmin="true"
+      ><p class="sidebar__link">Admin Panel</p></C_SidebarLink
+    >
     <span class="collapse-icon" :class="{ 'rotate-180': isCollapsed }" @click="toggleSidebar">
       <fa-icon :icon="['fas', 'angle-double-left']"></fa-icon>
     </span>
@@ -33,6 +50,15 @@ const toggleSidebar = () => {
   flex-direction: column;
   background-color: #161616;
   box-sizing: border-box;
+
+  &__link {
+    color: var(--navbar-link-color);
+    font-size: var(--font-size-base);
+    margin: 0;
+  }
+  a {
+    text-decoration: none;
+  }
 }
 
 .collapse-icon {
