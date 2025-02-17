@@ -7,7 +7,7 @@ export const sidebarStore = defineStore('sidebar', () => {
     isCollapsed.value = !isCollapsed.value
   }
   const sidebarWidthExpanded = 180
-  const sidebarWidthCollapsed = 40
+  const sidebarWidthCollapsed = 60
   const calculatedWidth = computed(() => 
     isCollapsed.value ? `${sidebarWidthCollapsed}px`:`${sidebarWidthExpanded}px`
   )
