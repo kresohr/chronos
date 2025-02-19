@@ -58,6 +58,9 @@ const isActive = computed(() => route.path === props.to)
   color: #ffffff;
   height: 60px;
   margin-top: var(--margin-small);
+  &:hover {
+    color: var(--primary-button-color-hover);
+  }
 
   &--active {
     color: var(--primary-button-color);
