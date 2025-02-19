@@ -4,16 +4,21 @@
   // Colors
   --background-color: #{variables.$background-color};
   --primary-text-color: #{variables.$primary-text-color};
+  --primary-link-color: #{variables.$primary-link-color};
   --secondary-text-color: #{variables.$secondary-text-color};
   --navbar-link-color: #{variables.$navbar-link-color};
+
+  // Box Shadow
+  --box-shadow: #{variables.$box-shadow};
 
   // Buttons
   --primary-button-color: #{variables.$primary-button-color};
   --primary-button-color-hover: #{variables.$primary-button-color-hover};
 
   // Border
-  --border-radius: #{variables.$border-radius};
-  --border-width: #{variables.$border-width};
+  --border-radius: #{variables.$border-radius}; // 8px
+  --border-radius-circle: #{variables.$border-radius-circle}; // 50%
+  --border-width: #{variables.$border-width}; // 1px
 
   // Spacing
   --spacing-xsmall: #{variables.$spacing-xsmall}; // 6px
@@ -28,12 +33,11 @@
   --font-size-large: #{variables.$font-size-large};  // 24px
   --font-size-xl: #{variables.$font-size-xl};        // 32px
 
-  --font-weight-regular: #{variables.$font-weight-regular};
-  --font-weight-bold: #{variables.$font-weight-bold};
-  --line-height: #{variables.$line-height};
+  --font-weight-regular: #{variables.$font-weight-regular}; // 400
+  --font-weight-bold: #{variables.$font-weight-bold};       // 700
+  --line-height: #{variables.$line-height}; // 1.5
 }
 
-/* The rest of your CSS is correct as-is */
 * {
   margin: 0;
   padding: 0;
