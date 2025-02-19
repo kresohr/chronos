@@ -5,21 +5,12 @@ import C_Sidebar from './components/C_Sidebar.vue'
 
 <template>
   <header>
-    <div class="wrapper">
-      <nav>
-        <C_Sidebar />
-      </nav>
-    </div>
+    <nav>
+      <C_Sidebar />
+    </nav>
   </header>
 
   <RouterView />
 </template>
 
-<style scoped lang="scss">
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-}
-</style>
+<style scoped lang="scss"></style>
