@@ -16,17 +16,10 @@
   --border-width: #{variables.$border-width};
 
   // Spacing
-  --padding-small: #{variables.$padding-small};  // 8px
-  --padding-medium: #{variables.$padding-medium}; // 16px
-  --padding-large: #{variables.$padding-large};  // 24px
-
-  --margin-small: #{variables.$margin-small};    // 8px
-  --margin-medium: #{variables.$margin-medium};  // 16px
-  --margin-large: #{variables.$margin-large};    // 32px
-
-  --gap-small: #{variables.$gap-small};          // 8px
-  --gap-medium: #{variables.$gap-medium};        // 16px
-  --gap-large: #{variables.$gap-large};          // 24px
+  --spacing-xsmall: #{variables.$spacing-xsmall}; // 6px
+  --spacing-small: #{variables.$spacing-small};  // 8px
+  --spacing-medium: #{variables.$spacing-medium}; // 16px
+  --spacing-large: #{variables.$spacing-large};  // 24px
 
   // Fonts
   --font-size-small: #{variables.$font-size-small};  // 14px
