@@ -1,5 +1,10 @@
 <template>
-  <div class="sidebar" :style="{ width: sidebarWidth }">
+  <div
+    class="sidebar"
+    :style="{ width: sidebarWidth }"
+    @mouseenter="handleMouseEnter"
+    @mouseleave="handleMouseLeave"
+  >
     <C_SidebarLink to="/" faType="fas" iconName="fa-house"
       ><p class="sidebar__link">Home</p></C_SidebarLink
     >
@@ -34,6 +39,18 @@ const isCollapsed = computed(() => sidebar.isCollapsed)
 const sidebarWidth = computed(() => sidebar.calculatedWidth)
 const toggleSidebar = () => {
   sidebar.toggleSidebar()
+}
+
+const handleMouseEnter = () => {
+  if (sidebar.isCollapsed) {
+    toggleSidebar()
+  }
+}
+
+const handleMouseLeave = () => {
+  if (!sidebar.isCollapsed) {
+    toggleSidebar()
+  }
 }
 </script>
 
