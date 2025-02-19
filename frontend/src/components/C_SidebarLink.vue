@@ -57,7 +57,7 @@ const isActive = computed(() => route.path === props.to)
   font-weight: 400;
   color: #ffffff;
   height: 60px;
-  margin-top: var(--margin-small);
+  margin-top: var(--spacing-small);
   &:hover {
     color: var(--primary-button-color-hover);
   }
@@ -73,7 +73,7 @@ const isActive = computed(() => route.path === props.to)
 }
 
 .link-icon {
-  margin-top: var(--margin-medium);
+  margin-top: var(--spacing-medium);
   height: 22px;
   width: 22px;
 }

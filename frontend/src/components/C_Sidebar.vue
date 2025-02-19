@@ -81,7 +81,7 @@ const handleMouseLeave = () => {
 .collapse-icon {
   position: absolute;
   bottom: 0;
-  padding: 0.75em;
+  padding: var(--spacing-small);
   color: #b7b7b7;
   transition: 0.2s linear;
 }
