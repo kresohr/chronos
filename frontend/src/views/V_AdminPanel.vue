@@ -9,7 +9,7 @@
         value="27"
         :icon="['fas', 'user-group']"
         linkText="Manage Employees"
-        linkUrl="/manage-workers"
+        linkUrl="/manage-employees"
         iconBackgroundColor="#7393B3"
         iconColor="#f1f1f1"
       />
@@ -39,7 +39,7 @@
 import C_DashboardCard from '@/components/C_DashboardCard.vue'
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .admin-panel {
   margin-top: var(--spacing-large);
   display: flex;
