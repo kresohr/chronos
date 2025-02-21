@@ -5,11 +5,11 @@
   <section>
     <div class="admin-panel">
       <C_DashboardCard
-        title="Total Workers"
+        title="Total Employees"
         value="27"
         :icon="['fas', 'user-group']"
-        linkText="View Projects"
-        linkUrl="/projects"
+        linkText="View Employees"
+        linkUrl="/manage-workers"
         iconBackgroundColor="#7393B3"
         iconColor="#f1f1f1"
       />
@@ -18,7 +18,7 @@
         value="10"
         :icon="['fas', 'suitcase']"
         linkText="View Projects"
-        linkUrl="/projects"
+        linkUrl="/manage-projects"
         iconBackgroundColor="#008000"
         iconColor="#f1f1f1"
       />
@@ -26,8 +26,8 @@
         title="Total Hours This Week"
         value="621"
         :icon="['fas', 'clock']"
-        linkText="View Projects"
-        linkUrl="/projects"
+        linkText="View Statistics"
+        linkUrl="/project-statistics"
         iconBackgroundColor="#F4BB44"
         iconColor="#f1f1f1"
       />
