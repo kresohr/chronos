@@ -6,6 +6,7 @@ Work in progress :)
 
 - [The goal of this project](#the-goal-of-this-project)
 - [Tech stack behind Chronos](#tech-stack-behind-chronos)
+- [GIT commit guidelines](#git-commit-guidelines)
 
 ## The goal of this project
 
@@ -22,3 +23,13 @@ While working for different clients and companies I’ve noticed a strange patte
 - **UI-UX** - [Quant-UX](https://github.com/KlausSchaefers/quant-ux) self hosted via docker for UI-UX mocking
 - **Docker** - [Docker](https://www.docker.com/) using Docker to containerize everything and to ease the process of running Chronos
 - **Icons** - [FontAwesome](https://docs.fontawesome.com/) using Font Awesome for icons across the project.
+
+## GIT commit guidelines
+
+The idea is to keep GIT commits clean and structured in a way that it is easier to find what you are looking for.
+
+- **UI-FIX**: Used for small UI fixes like changes in the margin, padding, color, etc.
+- **FIX**: Bugfixes, improvements
+- **REFACTOR**: Technical debt and code refactoring
+
+**Note:** Component implementation and progress has no tag
