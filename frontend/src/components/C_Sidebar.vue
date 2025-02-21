@@ -37,18 +37,19 @@ import C_SidebarLink from './C_SidebarLink.vue'
 const sidebar = sidebarStore()
 const isCollapsed = computed(() => sidebar.isCollapsed)
 const sidebarWidth = computed(() => sidebar.calculatedWidth)
+
 const toggleSidebar = () => {
   sidebar.toggleSidebar()
 }
 
 const handleMouseEnter = () => {
-  if (sidebar.isCollapsed) {
+  if (sidebar.isCollapsed && window.innerWidth > 768) {
     toggleSidebar()
   }
 }
 
 const handleMouseLeave = () => {
-  if (!sidebar.isCollapsed) {
+  if (!sidebar.isCollapsed && window.innerWidth > 768) {
     toggleSidebar()
   }
 }
