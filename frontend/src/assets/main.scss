@@ -7,6 +7,7 @@
   --primary-link-color: #{variables.$primary-link-color};
   --secondary-text-color: #{variables.$secondary-text-color};
   --navbar-link-color: #{variables.$navbar-link-color};
+  --border-color: #{variables.$border-color};
 
   // Box Shadow
   --box-shadow: #{variables.$box-shadow};
@@ -36,6 +37,10 @@
   --font-weight-regular: #{variables.$font-weight-regular}; // 400
   --font-weight-bold: #{variables.$font-weight-bold};       // 700
   --line-height: #{variables.$line-height}; // 1.5
+
+  // PrimeVue Colors
+  --table-header-bg: #18181B;
+  --table-background: #f3f3f3;
 }
 
 * {
@@ -43,6 +48,11 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+html {
+  background-color: variables.$background-color;
+}
+
 #app {
   max-width: 1280px;
   margin: 0 auto;
@@ -68,6 +78,32 @@ h1 {
   font-size: variables.$font-size-xl;
 }
 
-html {
-  background-color: variables.$background-color;
+// PrimeVue Table Custom Style
+.p-datatable-thead > tr > th {
+  background-color: var(--table-header-bg);
+}
+
+.p-datatable-table {
+  border-inline: 1px solid #27272a;
+}
+
+.p-datatable-column-title {
+  color: #f6f6f6;
+  font-size: var(--font-size-medium);
+  font-weight: bold;
+}
+
+.p-datatable .p-datatable-tbody > tr {
+  font-size: var(--font-size-base);
+  color: var(--primary-text-color);
+  border-bottom: var(--border-width) solid var(--border-color);
+  background-color: var(--table-background);
+}
+
+.p-datatable .p-datatable-tbody > tr:hover {
+  background-color: #e0e6e9;
+}
+
+.p-datatable .p-paginator {
+  border-radius: 0px;
 }

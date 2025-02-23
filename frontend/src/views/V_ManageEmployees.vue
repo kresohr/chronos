@@ -3,11 +3,66 @@
   <p>View employees or add new</p>
 
   <section>
-    <div class="manage-employees"></div>
+    <div class="manage-employees">
+      <DataTable :value="employees" :rows="5" :paginator="true" :style="[{ width: '100%' }]">
+        <Column field="name" header="Name"></Column>
+        <Column field="lastname" header="Last Name"></Column>
+        <Column field="email" header="Email" :hidden="windowWidth < 600"></Column>
+        <Column
+          class="manage-employees__projects-column"
+          field="projects"
+          header="Projects"
+          style="margin-inline: auto"
+        >
+          <template #body="slotProps">
+            <Button class="manage-employees__view-button" label="View" />
+          </template>
+        </Column>
+        <Column class="manage-employees__edit-column" field="edit" header="Edit">
+          <template #body="slotProps">
+            <button class="manage-employees__edit-button">
+              <fa-icon :icon="['fas', 'pencil']" />
+            </button>
+          </template>
+        </Column>
+      </DataTable>
+      <Button class="manage-employees__new-employee-button" label="Create New" />
+    </div>
   </section>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+import { Button } from 'primevue'
+import { onMounted, ref } from 'vue'
+import { onUnmounted } from 'vue'
+
+const employees = [
+  { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
+  { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
+  { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
+  { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
+  { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
+  { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
+
+  { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
+] as any
+
+const windowWidth = ref(window.innerWidth)
+
+const updateWidth = () => {
+  windowWidth.value = window.innerWidth
+}
+
+onMounted(() => {
+  window.addEventListener('resize', updateWidth)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateWidth)
+})
+</script>
 
 <style scoped lang="scss">
 .manage-employees {
@@ -17,20 +72,37 @@
   justify-content: center;
   align-items: center;
   margin-inline: auto;
-  max-width: 240px;
   gap: var(--spacing-small);
 
-  @media screen and (min-width: 600px) {
-    max-width: 360px;
+  &__new-employee-button {
+    margin-top: var(--spacing-small);
+    margin-left: auto;
   }
 
-  @media screen and (min-width: 900px) {
-    flex-direction: row;
-    max-width: 760px;
+  &__view-button {
+    display: block;
+    margin-inline: auto;
+  }
+
+  &__edit-button {
+    all: unset;
+    cursor: pointer;
+    display: block;
+    margin-inline: auto;
   }
 
   @media screen and (min-width: 1300px) {
     max-width: 1000px;
   }
+}
+
+:deep(.manage-employees__projects-column .p-datatable-column-header-content) {
+  align-items: center;
+  justify-content: center;
+}
+
+:deep(.manage-employees__edit-column .p-datatable-column-header-content) {
+  align-items: center;
+  justify-content: center;
 }
 </style>
