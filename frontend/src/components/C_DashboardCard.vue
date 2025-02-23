@@ -32,7 +32,7 @@ defineProps<{
   flex-direction: column;
   align-items: center;
   padding: var(--spacing-medium);
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
   background-color: #ffffff;
   box-shadow: var(--box-shadow);
