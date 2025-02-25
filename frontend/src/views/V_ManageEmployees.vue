@@ -26,7 +26,13 @@
           </template>
         </Column>
       </DataTable>
-      <Button class="manage-employees__new-employee-button" label="Create New" />
+
+      <router-link
+        class="manage-employees__new-employee-button--wrapper"
+        to="/manage-employees/new"
+      >
+        <Button label="Create New" />
+      </router-link>
     </div>
   </section>
 </template>
@@ -75,8 +81,10 @@ onUnmounted(() => {
   gap: var(--spacing-small);
 
   &__new-employee-button {
-    margin-top: var(--spacing-small);
-    margin-left: auto;
+    &--wrapper {
+      margin-top: var(--spacing-small);
+      margin-left: auto;
+    }
   }
 
   &__view-button {
