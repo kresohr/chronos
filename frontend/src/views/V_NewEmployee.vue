@@ -7,11 +7,9 @@
       <Form
         :initialValues
         :resolver="zodFormResolver"
-        @submit="console.log('Form submitted')"
+        @submit="onFormSubmit"
         class="form-container"
       >
-        <!-- TODO: Input text style has to be changed -->
-
         <FormField v-slot="$field" name="email" initialValue="" class="form-field">
           <InputText type="text" placeholder="E-mail address" />
           <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
@@ -33,9 +31,13 @@
           </Message>
         </FormField>
 
-        <!-- Input text has to be changed to dropdown to select available roles -->
         <FormField v-slot="$field" name="role" class="form-field">
-          <InputText type="text" placeholder="User role" />
+          <Dropdown
+            v-model="selectedRole"
+            :options="roles"
+            optionLabel="name"
+            placeholder="Select a Role"
+          />
           <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
             {{ $field.error?.message }}
           </Message>
@@ -49,11 +51,14 @@
 
 <script setup lang="ts">
 import { Form, FormField } from '@primevue/forms'
-import { onMounted, ref } from 'vue'
-import { onUnmounted } from 'vue'
+import Dropdown from 'primevue/dropdown'
+import { ref } from 'vue'
 import { Button, InputText, Password, Textarea, Message } from 'primevue'
 import { z } from 'zod'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
+import { useToast } from 'primevue/usetoast'
+
+const toast = useToast()
 const zodSchema = z.object({
   email: z.string().email('Invalid email'),
   firstname: z.string().min(1, 'First name is required'),
@@ -70,19 +75,27 @@ const initialValues = {
   role: '',
 }
 
-const windowWidth = ref(window.innerWidth)
-
-const updateWidth = () => {
-  windowWidth.value = window.innerWidth
+const selectedRole = ref()
+const roles = ref([
+  { name: 'Developer', code: 'DEV' },
+  { name: 'PM', code: 'PM' },
+  { name: 'PO', code: 'PO' },
+])
+const onFormSubmit = ({ valid }: { valid: boolean }) => {
+  if (valid) {
+    toast.add({
+      severity: 'success',
+      summary: 'Form is submitted.',
+      life: 3000,
+    })
+  } else {
+    toast.add({
+      severity: 'error',
+      summary: 'Form was not submitted.',
+      life: 3000,
+    })
+  }
 }
-
-onMounted(() => {
-  window.addEventListener('resize', updateWidth)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('resize', updateWidth)
-})
 </script>
 
 <style scoped lang="scss">
