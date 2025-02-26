@@ -78,32 +78,15 @@ h1 {
   font-size: variables.$font-size-xl;
 }
 
-// PrimeVue Table Custom Style
-.p-datatable-thead > tr > th {
-  background-color: var(--table-header-bg);
-}
 
-.p-datatable-table {
-  border-inline: 1px solid #27272a;
-}
 
-.p-datatable-column-title {
-  color: #f6f6f6;
-  font-size: var(--font-size-medium);
-  font-weight: bold;
-}
+input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    transition:
+      background-color 600000s 0s,
+      color 600000s 0s;
+  }
 
-.p-datatable .p-datatable-tbody > tr {
-  font-size: var(--font-size-base);
-  color: var(--primary-text-color);
-  border-bottom: var(--border-width) solid var(--border-color);
-  background-color: var(--table-background);
-}
-
-.p-datatable .p-datatable-tbody > tr:hover {
-  background-color: #e0e6e9;
-}
-
-.p-datatable .p-paginator {
-  border-radius: 0px;
+input[data-autocompleted] {
+  background-color: transparent !important;
 }
