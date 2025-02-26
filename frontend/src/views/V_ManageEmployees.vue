@@ -4,7 +4,12 @@
 
   <section>
     <div class="manage-employees">
-      <DataTable :value="employees" :rows="5" :paginator="true" :style="[{ width: '100%' }]">
+      <DataTable
+        :value="employeeStore.allEmployees"
+        :rows="5"
+        :paginator="true"
+        :style="[{ width: '100%' }]"
+      >
         <Column field="name" header="Name"></Column>
         <Column field="lastname" header="Last Name"></Column>
         <Column field="email" header="Email" :hidden="windowWidth < 600"></Column>
@@ -43,17 +48,9 @@ import Column from 'primevue/column'
 import { Button } from 'primevue'
 import { onMounted, ref } from 'vue'
 import { onUnmounted } from 'vue'
+import { useEmployeeStore } from '@/stores/employee'
 
-const employees = [
-  { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
-  { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
-  { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
-  { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
-  { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
-  { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
-
-  { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
-] as any
+const employeeStore = useEmployeeStore()
 
 const windowWidth = ref(window.innerWidth)
 
@@ -63,6 +60,7 @@ const updateWidth = () => {
 
 onMounted(() => {
   window.addEventListener('resize', updateWidth)
+  employeeStore.fetchAllEmployees()
 })
 
 onUnmounted(() => {
