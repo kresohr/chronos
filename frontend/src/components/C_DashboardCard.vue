@@ -6,7 +6,9 @@
     <div class="dashboard-card__content">
       <p class="dashboard-card__title">{{ title }}</p>
       <p class="dashboard-card__value">{{ value }}</p>
-      <a v-if="linkText && linkUrl" :href="linkUrl" class="dashboard-card__link">{{ linkText }}</a>
+      <router-link v-if="linkText && linkUrl" :to="linkUrl">
+        <p class="dashboard-card__link">{{ linkText }}</p>
+      </router-link>
     </div>
   </div>
 </template>
@@ -80,6 +82,7 @@ defineProps<{
   color: var(--primary-link-color);
   text-align: center;
   width: 100%;
+  text-decoration: underline;
 }
 
 @media screen and (min-width: 900px) {
