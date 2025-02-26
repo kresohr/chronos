@@ -9,7 +9,7 @@ import C_Sidebar from './components/C_Sidebar.vue'
       <C_Sidebar />
     </nav>
   </header>
-
+  <Toast />
   <RouterView />
 </template>
 
