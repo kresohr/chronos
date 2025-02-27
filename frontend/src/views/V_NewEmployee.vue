@@ -57,6 +57,10 @@
           </Message>
         </FormField>
 
+        <FormField v-if="true" v-slot="$field" name="role" class="form-field--checkbox">
+          <label for="isadmin">Create as admin?</label>
+          <Checkbox inputId="isadmin" v-model="createAdminChecked" binary />
+        </FormField>
         <Button type="submit" label="Submit" />
       </Form>
     </div>
@@ -66,6 +70,7 @@
 <script setup lang="ts">
 import { Form, FormField } from '@primevue/forms'
 import Dropdown from 'primevue/dropdown'
+import Checkbox from 'primevue/checkbox'
 import { ref } from 'vue'
 import { Button, InputText, Message } from 'primevue'
 import { z } from 'zod'
@@ -105,26 +110,26 @@ const project = ref([
   { name: 'Project 3', code: 'P3' },
 ])
 
+const createAdminChecked = ref(false)
+
 const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any }) => {
-  if (valid && values) {
-    try {
-      await employeeStore.createEmployee(
-        values.firstname,
-        values.lastname,
-        values.email,
-        selectedRole.value.name,
-        selectedProject.value.name,
-      )
-    } catch (error: any) {
-      console.error(error)
-    }
-  } else {
+  if (!valid || !values) {
     toast.add({
       severity: 'error',
       summary: 'Form validation failed.',
       life: 3000,
     })
+    return
   }
+
+  await employeeStore.createEmployee(
+    values.firstname,
+    values.lastname,
+    values.email,
+    selectedRole.value?.name ?? '',
+    selectedProject.value?.name ?? '',
+    createAdminChecked.value,
+  )
 }
 </script>
 
@@ -151,5 +156,10 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any })
   display: flex;
   flex-direction: column;
   gap: var(--spacing-xsmall);
+  &--checkbox {
+    display: flex;
+    justify-content: end;
+    gap: var(--spacing-small);
+  }
 }
 </style>
