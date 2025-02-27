@@ -26,14 +26,23 @@ export const useEmployeeStore = defineStore('employee', () => {
   }
 
   async function createEmployee(
-    name: string,
-    lastname: string,
+    firstName: string,
+    lastName: string,
     email: string,
     role: string,
     project: string,
+    isAdmin: boolean,
   ) {
     try {
-      const newEmployee = { name, lastname, email, role, project }
+      const newEmployee = {
+        firstName,
+        lastName,
+        email,
+        role,
+        project,
+        isAdmin,
+      }
+
       const response = await fetch(`${backendUrl}/create`, {
         method: 'POST',
         headers: {
@@ -47,14 +56,17 @@ export const useEmployeeStore = defineStore('employee', () => {
       }
 
       const createdEmployee = await response.json()
+
       toast.add({
         severity: 'success',
         summary: 'Employee created successfully!',
         life: 3000,
       })
+
       allEmployees.value.push(createdEmployee)
     } catch (error: any) {
       console.error('Error creating employee:', error)
+
       toast.add({
         severity: 'error',
         summary: 'Failed to create employee.',
