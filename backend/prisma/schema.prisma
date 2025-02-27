@@ -15,13 +15,69 @@ datasource db {
 
 model User {
   id         Int      @id @default(autoincrement())
-  keycloakId String   @unique // Keycloak User ID
-  email      String   @unique // User's email (should be managed by Keycloak)
+  keycloakId String?
+  email      String   @unique
   firstName  String?
   lastName   String?
   isAdmin    Boolean
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
+  projects UserProject[]
+  roles    UserRole[]
+  entries  Entry[]
+
   @@index([keycloakId])
+}
+
+model Project {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  entries   Entry[]
+
+  users UserProject[]
+}
+
+model Role {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  users UserRole[]
+}
+
+model UserProject {
+  userId    Int
+  projectId Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@id([userId, projectId])
+}
+
+model UserRole {
+  userId Int
+  roleId Int
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role   Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+}
+
+model Entry {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  projectId  Int
+  date       DateTime
+  timeLogged Int // In minutes
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([userId, projectId, date])
 }
