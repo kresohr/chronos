@@ -45,6 +45,8 @@ services:
 # Backend db
   db_backend:
     image: postgres:17
+    ports:
+      - "5432:5432"
     mem_limit: 1g
     environment:
       POSTGRES_DB: chronos
