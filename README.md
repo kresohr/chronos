@@ -30,9 +30,13 @@ While working for different clients and companies I’ve noticed a strange patte
 
 ### Installation
 
-The steps will be updated with proper links, for now here is an example .env file that you can place inside your /backend for docker to work
+The steps will be updated with proper links, for now here is an example .env file that you can place inside your /backend for docker backend to work
 
 `DATABASE_URL="postgresql://postgres:postgres@db_backend:5432/chronos?schema=public`
+
+In case you want to run backend locally through terminal, you can use this example for your .env file (make sure you run `npx prisma generate` before starting the backend server.)
+
+`DATABASE_URL="postgresql://postgres:postgres@localhost:15432/chronos?schema=public"`
 
 ## GIT commit guidelines
 
