@@ -6,6 +6,8 @@ Work in progress :)
 
 - [The goal of this project](#the-goal-of-this-project)
 - [Tech stack behind Chronos](#tech-stack-behind-chronos)
+- [Getting Started](#getting-started)
+- - [Installation](#installation)
 - [GIT commit guidelines](#git-commit-guidelines)
 
 ## The goal of this project
@@ -23,6 +25,14 @@ While working for different clients and companies I’ve noticed a strange patte
 - **UI-UX** - [Quant-UX](https://github.com/KlausSchaefers/quant-ux) self hosted via docker for UI-UX mocking
 - **Docker** - [Docker](https://www.docker.com/) using Docker to containerize everything and to ease the process of running Chronos
 - **Icons** - [FontAwesome](https://docs.fontawesome.com/) using Font Awesome for icons across the project.
+
+## Getting Started
+
+### Installation
+
+The steps will be updated with proper links, for now here is an example .env file that you can place inside your /backend for docker to work
+
+`DATABASE_URL="postgresql://postgres:postgres@db_backend:5432/chronos?schema=public`
 
 ## GIT commit guidelines
 
