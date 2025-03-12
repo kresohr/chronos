@@ -1,8 +1,8 @@
 services:
-# Keycloak
+  # Keycloak
   keycloak:
     image: quay.io/keycloak/keycloak:26.1.2
-    command: start-dev  # use start for production
+    command: start-dev # use start for production
     mem_limit: 1g
     environment:
       - KC_DB=postgres
@@ -25,7 +25,7 @@ services:
     ports:
       - "8080:8080"
 
-# Keycloak db
+  # Keycloak db
   db_keycloak:
     image: postgres:17
     mem_limit: 1g
@@ -42,11 +42,11 @@ services:
     volumes:
       - keycloak_db_data:/var/lib/postgresql/data
 
-# Backend db
+  # Backend db
   db_backend:
     image: postgres:17
     ports:
-      - "5432:5432"
+      - "15432:5432"
     mem_limit: 1g
     environment:
       POSTGRES_DB: chronos
@@ -61,7 +61,7 @@ services:
     volumes:
       - backend_db_data:/var/lib/postgresql/data
 
-# Backend
+  # Backend
   backend:
     build: ./backend
     env_file:
@@ -79,7 +79,7 @@ services:
       start_period: 30s
       timeout: 5s
 
-# Frontend
+  # Frontend
   frontend:
     build: ./frontend
     ports:
