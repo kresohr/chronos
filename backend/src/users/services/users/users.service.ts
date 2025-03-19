@@ -9,4 +9,8 @@ export class UsersService {
   fetchUsers() {
     return this.prisma.user.findMany();
   }
+
+  createUser(data: Prisma.UserCreateInput) {
+    return this.prisma.user.create({ data });
+  }
 }
