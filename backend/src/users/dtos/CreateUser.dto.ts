@@ -1,11 +1,29 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
-export class AddRoleToUserDTO {
+export class CreateUserDTO {
   @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @IsOptional()
   @IsString()
-  userId: string;
+  firstName: string;
+
+  @IsOptional()
+  @IsString()
+  lastName: string;
 
   @IsNotEmpty()
+  @IsBoolean()
+  isAdmin: boolean;
+
+  @IsOptional()
   @IsString()
   roleId: string;
 }
