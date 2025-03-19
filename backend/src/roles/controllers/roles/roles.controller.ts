@@ -16,7 +16,7 @@ export class RolesController {
   constructor(private rolesService: RolesService) {}
   @Get()
   getRoles() {
-    this.rolesService.fetchRoles();
+    return this.rolesService.fetchRoles();
   }
 
   @Post()
