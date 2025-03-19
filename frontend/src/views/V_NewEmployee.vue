@@ -71,14 +71,16 @@
 import { Form, FormField } from '@primevue/forms'
 import Dropdown from 'primevue/dropdown'
 import Checkbox from 'primevue/checkbox'
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { Button, InputText, Message } from 'primevue'
 import { z } from 'zod'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { useToast } from 'primevue/usetoast'
-import { useEmployeeStore } from '@/stores/employee'
+import { useEmployeesStore } from '@/stores/employees'
+import { useRolesStore } from '@/stores/roles'
 
-const employeeStore = useEmployeeStore()
+const employeeStore = useEmployeesStore()
+const rolesStore = useRolesStore()
 const toast = useToast()
 const zodSchema = z.object({
   email: z.string().email('Invalid email'),
@@ -97,11 +99,7 @@ const initialValues = {
 }
 
 const selectedRole = ref()
-const roles = ref([
-  { name: 'Developer', code: 'DEV' },
-  { name: 'PM', code: 'PM' },
-  { name: 'PO', code: 'PO' },
-])
+const roles = computed(() => rolesStore.allRoles)
 
 const selectedProject = ref()
 const project = ref([
@@ -131,6 +129,10 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any })
     createAdminChecked.value,
   )
 }
+
+onMounted(() => {
+  rolesStore.fetchAllRoles()
+})
 </script>
 
 <style scoped lang="scss">
