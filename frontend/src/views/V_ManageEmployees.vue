@@ -48,9 +48,9 @@ import Column from 'primevue/column'
 import { Button } from 'primevue'
 import { onMounted, ref } from 'vue'
 import { onUnmounted } from 'vue'
-import { useEmployeeStore } from '@/stores/employee'
+import { useEmployeesStore } from '@/stores/employees'
 
-const employeeStore = useEmployeeStore()
+const employeeStore = useEmployeesStore()
 
 const windowWidth = ref(window.innerWidth)
 
