@@ -1,19 +1,12 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useToast } from 'primevue/usetoast'
+import type { Employee } from '@/types/EmployeeType'
 
 export const useEmployeesStore = defineStore('employees', () => {
   const toast = useToast()
   const backendUrl = `${import.meta.env.VITE_BACKEND_URL}/employees`
-  const allEmployees = ref([
-    { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
-    { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
-    { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
-    { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
-    { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
-    { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
-    { name: 'John', lastname: 'Doe', email: 'oRq7w@example.com' },
-  ] as any)
+  const allEmployees = ref<Employee[]>([])
 
   async function fetchAllEmployees() {
     try {
