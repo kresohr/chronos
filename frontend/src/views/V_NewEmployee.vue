@@ -38,7 +38,15 @@
             :options="roles"
             optionLabel="name"
             placeholder="Select a Role"
-          />
+            :filter="true"
+            filterPlaceholder="Search available roles"
+          >
+            <template #option="slotProps">
+              <span :class="{ 'create-new-item': slotProps.option.isCreateNew }">
+                {{ slotProps.option.name }}
+              </span>
+            </template>
+          </Dropdown>
           <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
             {{ $field.error?.message }}
           </Message>
@@ -48,10 +56,18 @@
         <FormField v-if="true" v-slot="$field" name="role" class="form-field">
           <Dropdown
             v-model="selectedProject"
-            :options="project"
+            :options="projects"
             optionLabel="name"
             placeholder="Assign to project"
-          />
+            :filter="true"
+            filterPlaceholder="Search available projects"
+          >
+            <template #option="slotProps">
+              <span :class="{ 'create-new-item': slotProps.option.isCreateNew }">
+                {{ slotProps.option.name }}
+              </span>
+            </template>
+          </Dropdown>
           <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
             {{ $field.error?.message }}
           </Message>
@@ -71,15 +87,18 @@
 import { Form, FormField } from '@primevue/forms'
 import Dropdown from 'primevue/dropdown'
 import Checkbox from 'primevue/checkbox'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { Button, InputText, Message } from 'primevue'
 import { z } from 'zod'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { useToast } from 'primevue/usetoast'
 import { useEmployeesStore } from '@/stores/employees'
 import { useRolesStore } from '@/stores/roles'
+import router from '@/router'
+import { useProjectsStore } from '@/stores/projects'
 
 const employeeStore = useEmployeesStore()
+const projectsStore = useProjectsStore()
 const rolesStore = useRolesStore()
 const toast = useToast()
 const zodSchema = z.object({
@@ -96,17 +115,32 @@ const initialValues = {
   firstname: '',
   lastname: '',
   role: '',
+  project: '',
 }
 
 const selectedRole = ref()
-const roles = computed(() => rolesStore.allRoles)
+const roles = computed(() => {
+  const allRoles = rolesStore.allRoles
+  return [
+    {
+      name: 'Create New Role',
+      isCreateNew: true,
+    },
+    ...allRoles,
+  ]
+})
 
 const selectedProject = ref()
-const project = ref([
-  { name: 'Project 1', code: 'P1' },
-  { name: 'Project 2', code: 'P2' },
-  { name: 'Project 3', code: 'P3' },
-])
+const projects = computed(() => {
+  const allProjects = projectsStore.allProjects
+  return [
+    {
+      name: 'Create New Project',
+      isCreateNew: true,
+    },
+    ...allProjects,
+  ]
+})
 
 const createAdminChecked = ref(false)
 
@@ -132,6 +166,18 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any })
 
 onMounted(() => {
   rolesStore.fetchAllRoles()
+  projectsStore.fetchAllProjects()
+})
+
+watch(selectedRole, () => {
+  if (selectedRole.value?.isCreateNew) {
+    router.push('/roles/new')
+  }
+})
+watch(selectedProject, () => {
+  if (selectedProject.value?.isCreateNew) {
+    router.push('/projects/new')
+  }
 })
 </script>
 
@@ -163,5 +209,13 @@ onMounted(() => {
     justify-content: end;
     gap: var(--spacing-small);
   }
+}
+
+.create-new-item {
+  background-color: var(--p-button-primary-background);
+  margin-inline: auto;
+  color: var(--p-button-primary-color);
+  padding: var(--p-button-padding-y) var(--p-button-padding-x);
+  border-radius: 6px;
 }
 </style>
