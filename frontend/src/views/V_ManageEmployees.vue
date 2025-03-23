@@ -10,9 +10,11 @@
         :paginator="true"
         :style="[{ width: '100%' }]"
       >
-        <Column field="name" header="Name"></Column>
-        <Column field="lastname" header="Last Name"></Column>
+        <Column field="firstName" header="Name"></Column>
+        <Column field="lastName" header="Last Name"></Column>
         <Column field="email" header="Email" :hidden="windowWidth < 600"></Column>
+        <Column field="role" header="Role" :hidden="windowWidth < 600"></Column>
+
         <Column
           class="manage-employees__projects-column"
           field="projects"
