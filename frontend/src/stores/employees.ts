@@ -22,8 +22,8 @@ export const useEmployeesStore = defineStore('employees', () => {
     firstName: string,
     lastName: string,
     email: string,
-    role: string,
-    project: string,
+    roleId: number | null,
+    projectId: number | null,
     isAdmin: boolean,
   ) {
     try {
@@ -31,8 +31,8 @@ export const useEmployeesStore = defineStore('employees', () => {
         firstName,
         lastName,
         email,
-        role,
-        project,
+        roleId,
+        projectId,
         isAdmin,
       }
 
