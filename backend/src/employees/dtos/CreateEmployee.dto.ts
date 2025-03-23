@@ -1,6 +1,7 @@
 import {
   IsBoolean,
   IsEmail,
+  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -16,12 +17,18 @@ export class CreateEmployeeDto {
   isAdmin: boolean;
 
   @IsString()
-  @IsOptional()
-  firstName?: string;
+  firstName: string;
 
   @IsString()
+  lastName: string;
+
+  @IsInt()
   @IsOptional()
-  lastName?: string;
+  roleId?: number;
+
+  @IsInt()
+  @IsOptional()
+  projectId?: number;
 
   @IsString()
   @IsOptional()
