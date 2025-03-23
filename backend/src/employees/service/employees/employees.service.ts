@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Prisma } from '@prisma/client';
+import { CreateEmployeeDto } from 'src/employees/dtos/CreateEmployee.dto';
 
 @Injectable()
 export class EmployeesService {
@@ -13,9 +14,33 @@ export class EmployeesService {
     return this.prisma.user.findMany();
   }
 
-  async createEmployee(data: Prisma.UserCreateInput) {
+  async createEmployee(data: CreateEmployeeDto) {
     try {
-      return await this.prisma.user.create({ data });
+      const { roleId, projectId, ...userData } = data;
+
+      const user = await this.prisma.user.create({
+        data: userData,
+      });
+
+      if (roleId) {
+        await this.prisma.userRole.create({
+          data: {
+            userId: user.id,
+            roleId: roleId,
+          },
+        });
+      }
+
+      if (projectId) {
+        await this.prisma.userProject.create({
+          data: {
+            userId: user.id,
+            projectId: projectId,
+          },
+        });
+      }
+
+      return user;
     } catch (error) {
       if (error.code === 'P2002') {
         throw new ConflictException(
