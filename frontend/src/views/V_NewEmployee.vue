@@ -105,7 +105,8 @@ const zodSchema = z.object({
   email: z.string().email('Invalid email'),
   firstname: z.string().min(1, 'First name is required'),
   lastname: z.string().min(1, 'Last name is required'),
-  details: z.string().optional(),
+  role: z.string().optional(),
+  project: z.string().optional(),
 })
 
 const zodFormResolver = zodResolver(zodSchema)
@@ -158,8 +159,8 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any })
     values.firstname,
     values.lastname,
     values.email,
-    selectedRole.value?.name ?? '',
-    selectedProject.value?.name ?? '',
+    Number(selectedRole.value?.id) ?? null,
+    Number(selectedProject.value?.id) ?? null,
     createAdminChecked.value,
   )
 }
