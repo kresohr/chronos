@@ -9,7 +9,7 @@
         value="27"
         :icon="['fas', 'user-group']"
         linkText="Manage Employees"
-        linkUrl="/manage-employees"
+        linkUrl="/employees"
         iconBackgroundColor="#7393B3"
         iconColor="#f1f1f1"
       />
@@ -18,7 +18,7 @@
         value="10"
         :icon="['fas', 'suitcase']"
         linkText="Manage Projects"
-        linkUrl="/manage-projects"
+        linkUrl="/projects"
         iconBackgroundColor="#008000"
         iconColor="#f1f1f1"
       />
@@ -26,7 +26,7 @@
         title="Total Hours This Week"
         value="621"
         :icon="['fas', 'clock']"
-        linkText="Manage Statistics"
+        linkText="View Statistics"
         linkUrl="/project-statistics"
         iconBackgroundColor="#F4BB44"
         iconColor="#f1f1f1"
