@@ -1,9 +1,9 @@
 <template>
-  <h1>Manage Employees</h1>
-  <p>View employees or add new</p>
+  <h1>Employees</h1>
+  <p>Full list of employees</p>
 
   <section>
-    <div class="manage-employees">
+    <div class="employees">
       <DataTable
         :value="employeeStore.allEmployees"
         :rows="5"
@@ -16,28 +16,25 @@
         <Column field="role" header="Role" :hidden="windowWidth < 600"></Column>
 
         <Column
-          class="manage-employees__projects-column"
+          class="employees__projects-column"
           field="projects"
           header="Projects"
           style="margin-inline: auto"
         >
           <template #body="slotProps">
-            <Button class="manage-employees__view-button" label="View" />
+            <Button class="employees__view-button" label="View" />
           </template>
         </Column>
-        <Column class="manage-employees__edit-column" field="edit" header="Edit">
+        <Column class="employees__edit-column" field="edit" header="Edit">
           <template #body="slotProps">
-            <button class="manage-employees__edit-button">
+            <button class="employees__edit-button">
               <fa-icon :icon="['fas', 'pencil']" />
             </button>
           </template>
         </Column>
       </DataTable>
 
-      <router-link
-        class="manage-employees__new-employee-button--wrapper"
-        to="/manage-employees/new"
-      >
+      <router-link class="employees__new-employee-button--wrapper" to="/employees/new">
         <Button label="Create New" />
       </router-link>
     </div>
@@ -71,7 +68,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-.manage-employees {
+.employees {
   margin-top: var(--spacing-large);
   display: flex;
   flex-direction: column;
@@ -104,12 +101,12 @@ onUnmounted(() => {
   }
 }
 
-:deep(.manage-employees__projects-column .p-datatable-column-header-content) {
+:deep(.employees__projects-column .p-datatable-column-header-content) {
   align-items: center;
   justify-content: center;
 }
 
-:deep(.manage-employees__edit-column .p-datatable-column-header-content) {
+:deep(.employees__edit-column .p-datatable-column-header-content) {
   align-items: center;
   justify-content: center;
 }
