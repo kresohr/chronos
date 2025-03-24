@@ -1,4 +1,5 @@
 <template>
+  <!-- TODO: Guard route if user is not admin -->
   <h1>Create New Employee</h1>
   <p>Fill out the form to create a new employee</p>
 
@@ -53,7 +54,7 @@
         </FormField>
 
         <!-- Add conditional render if project is enabled as a module -->
-        <FormField v-if="true" v-slot="$field" name="role" class="form-field">
+        <FormField v-if="true" v-slot="$field" name="project" class="form-field">
           <Dropdown
             v-model="selectedProject"
             :options="projects"
@@ -73,7 +74,7 @@
           </Message>
         </FormField>
 
-        <FormField v-if="true" v-slot="$field" name="role" class="form-field--checkbox">
+        <FormField v-if="true" v-slot="$field" name="isadmin" class="form-field--checkbox">
           <label for="isadmin">Create as admin?</label>
           <Checkbox inputId="isadmin" v-model="createAdminChecked" binary />
         </FormField>
@@ -105,8 +106,13 @@ const zodSchema = z.object({
   email: z.string().email('Invalid email'),
   firstname: z.string().min(1, 'First name is required'),
   lastname: z.string().min(1, 'Last name is required'),
-  role: z.string().optional(),
-  project: z.string().optional(),
+  role: z.object({
+    id: z.number(),
+  }),
+  project: z.object({
+    id: z.number(),
+  }),
+  isadmin: z.boolean().optional(),
 })
 
 const zodFormResolver = zodResolver(zodSchema)
@@ -117,6 +123,7 @@ const initialValues = {
   lastname: '',
   role: '',
   project: '',
+  isadmin: false,
 }
 
 const selectedRole = ref()
@@ -159,9 +166,9 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any })
     values.firstname,
     values.lastname,
     values.email,
-    Number(selectedRole.value?.id) ?? null,
-    Number(selectedProject.value?.id) ?? null,
-    createAdminChecked.value,
+    Number(values.role?.id) ?? null,
+    Number(values.project?.id) ?? null,
+    values.isadmin,
   )
 }
 
