@@ -14,8 +14,8 @@
     <C_SidebarLink to="/projects" faType="fas" iconName="briefcase"
       ><p class="sidebar__link">Projects</p></C_SidebarLink
     >
-    <C_SidebarLink to="/team" faType="fas" iconName="user-group"
-      ><p class="sidebar__link">Team</p></C_SidebarLink
+    <C_SidebarLink to="/employees" faType="fas" iconName="user-group"
+      ><p class="sidebar__link">Employees</p></C_SidebarLink
     >
     <C_SidebarLink to="/reports" faType="fas" iconName="chart-column"
       ><p class="sidebar__link">Reports</p></C_SidebarLink
