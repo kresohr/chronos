@@ -32,12 +32,12 @@
           header="Projects"
           style="margin-inline: auto"
         >
-          <template #body="slotProps">
+          <template #body>
             <Button class="employees__view-button" label="View" />
           </template>
         </Column>
         <Column class="employees__edit-column" field="edit" header="Edit">
-          <template #body="slotProps">
+          <template #body>
             <button class="employees__edit-button">
               <fa-icon :icon="['fas', 'pencil']" />
             </button>
