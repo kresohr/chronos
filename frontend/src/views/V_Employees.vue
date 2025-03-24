@@ -9,11 +9,22 @@
         :rows="5"
         :paginator="true"
         :style="[{ width: '100%' }]"
+        v-model:filters="filters"
       >
-        <Column field="firstName" header="Name"></Column>
-        <Column field="lastName" header="Last Name"></Column>
+        <template #header v-if="windowWidth > 600">
+          <div class="employees__search">
+            <IconField>
+              <InputIcon>
+                <i class="pi pi-search" />
+              </InputIcon>
+              <InputText v-model="filters['global'].value" placeholder="Search..." />
+            </IconField>
+          </div>
+        </template>
+        <Column field="firstName" header="Name" sortable></Column>
+        <Column field="lastName" header="Last Name" sortable></Column>
         <Column field="email" header="Email" :hidden="windowWidth < 600"></Column>
-        <Column field="role" header="Role" :hidden="windowWidth < 600"></Column>
+        <Column field="role" header="Role" :hidden="windowWidth < 600" sortable></Column>
 
         <Column
           class="employees__projects-column"
@@ -35,7 +46,8 @@
       </DataTable>
 
       <router-link class="employees__new-employee-button--wrapper" to="/employees/new">
-        <Button label="Create New" />
+        <!-- TODO: Conditionally render if the person is admin -->
+        <Button v-if="true" label="Create New" />
       </router-link>
     </div>
   </section>
@@ -44,14 +56,17 @@
 <script setup lang="ts">
 import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
-import { Button } from 'primevue'
+import { FilterMatchMode } from '@primevue/core/api'
+import { Button, IconField, InputIcon, InputText } from 'primevue'
 import { onMounted, ref } from 'vue'
 import { onUnmounted } from 'vue'
 import { useEmployeesStore } from '@/stores/employees'
 
 const employeeStore = useEmployeesStore()
-
 const windowWidth = ref(window.innerWidth)
+const filters = ref({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+})
 
 const updateWidth = () => {
   windowWidth.value = window.innerWidth
@@ -94,6 +109,11 @@ onUnmounted(() => {
     cursor: pointer;
     display: block;
     margin-inline: auto;
+  }
+
+  &__search {
+    display: flex;
+    justify-content: end;
   }
 
   @media screen and (min-width: 1300px) {
