@@ -1,4 +1,6 @@
 <template>
+  <!-- TODO: Guard route if user is not admin -->
+
   <h1>Create New Project</h1>
   <p>Enter the name of the new project</p>
 
@@ -37,7 +39,10 @@ const toast = useToast()
 const router = useRouter()
 
 const zodSchema = z.object({
-  name: z.string().min(1, 'Project name is required'),
+  name: z
+    .string()
+    .min(2, 'Project name cannot be shorter than 2 characters')
+    .max(35, 'Project name cannot be longer than 35 characters'),
 })
 
 const zodFormResolver = zodResolver(zodSchema)
