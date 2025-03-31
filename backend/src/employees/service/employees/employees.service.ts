@@ -4,8 +4,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { Prisma } from '@prisma/client';
 import { CreateEmployeeDto } from 'src/employees/dtos/CreateEmployee.dto';
+import { FetchEmployeeProjectsDto } from 'src/employees/dtos/FetchEmployeeProjects.dto';
+import { DeleteEmployeeDto } from 'src/employees/dtos/DeleteEmployee.dto';
 
 @Injectable()
 export class EmployeesService {
@@ -51,19 +52,35 @@ export class EmployeesService {
     }
   }
 
-  async deleteEmployee(id: number) {
+  async deleteEmployee(data: DeleteEmployeeDto) {
     try {
       const deletedEmployee = await this.prisma.user.delete({
         where: {
-          id: id,
+          id: data.userId,
         },
       });
       return deletedEmployee;
     } catch (error) {
       if (error.code === 'P2025') {
-        throw new NotFoundException(`Employee with id ${id} does not exist.`);
+        throw new NotFoundException(
+          `Employee with id ${data.userId} does not exist.`,
+        );
       }
       throw error;
     }
+  }
+
+  async fetchEmployeeProjects(data: FetchEmployeeProjectsDto) {
+    try {
+      return this.prisma.userProject.findMany({
+        where: {
+          userId: data.userId,
+        },
+        select: {
+          userId: true,
+          project: true,
+        },
+      });
+    } catch {}
   }
 }
