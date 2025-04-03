@@ -1,4 +1,32 @@
 <template>
+  <!-- TODO: Add spinner until allEmployeeProjects is fetched-->
+  <Dialog
+    v-model:visible="isDialogVisible"
+    modal
+    :header="`Projects for ${selectedUser?.email}`"
+    :style="{ width: '50rem' }"
+    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+    :draggable="false"
+  >
+    <DataTable
+      :value="employeeStore.allEmployeeProjects"
+      :rows="5"
+      :paginator="true"
+      :style="[{ width: '100%' }]"
+    >
+      <Column field="id" header="#"></Column>
+      <Column field="name" header="Name"></Column>
+
+      <!-- TODO: Conditionally render if the person is admin & module is enabled -->
+      <Column v-if="true" class="employees__edit-column" field="remove" header="Remove">
+        <template #body>
+          <button class="employees__icon-button">
+            <fa-icon :icon="['fas', 'trash']" />
+          </button>
+        </template>
+      </Column>
+    </DataTable>
+  </Dialog>
   <h1>Employees</h1>
   <p>Full list of employees</p>
 
@@ -32,13 +60,17 @@
           header="Projects"
           style="margin-inline: auto"
         >
-          <template #body>
-            <Button class="employees__view-button" label="View" />
+          <template #body="{ data }">
+            <Button
+              class="employees__view-button"
+              label="View"
+              @click="handleProjectViewClick(data)"
+            />
           </template>
         </Column>
         <Column class="employees__edit-column" field="edit" header="Edit">
           <template #body>
-            <button class="employees__edit-button">
+            <button class="employees__icon-button">
               <fa-icon :icon="['fas', 'pencil']" />
             </button>
           </template>
@@ -58,19 +90,35 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import { FilterMatchMode } from '@primevue/core/api'
 import { Button, IconField, InputIcon, InputText } from 'primevue'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { onUnmounted } from 'vue'
 import { useEmployeesStore } from '@/stores/employees'
+import Dialog from 'primevue/dialog'
+import type { Employee } from '@/types/EmployeeType'
 
 const employeeStore = useEmployeesStore()
 const windowWidth = ref(window.innerWidth)
+const isDialogVisible = ref(false)
 const filters = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 })
+const selectedUser = ref<Employee>()
 
 const updateWidth = () => {
   windowWidth.value = window.innerWidth
 }
+
+const handleProjectViewClick = (user: Employee) => {
+  selectedUser.value = user
+  isDialogVisible.value = !isDialogVisible.value
+  employeeStore.fetchEmployeeProjects(user)
+}
+
+watch(isDialogVisible, () => {
+  if (!isDialogVisible.value) {
+    selectedUser.value = undefined
+  }
+})
 
 onMounted(() => {
   window.addEventListener('resize', updateWidth)
@@ -104,7 +152,7 @@ onUnmounted(() => {
     margin-inline: auto;
   }
 
-  &__edit-button {
+  &__icon-button {
     all: unset;
     cursor: pointer;
     display: block;
