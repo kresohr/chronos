@@ -2,11 +2,13 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useToast } from 'primevue/usetoast'
 import type { Employee } from '@/types/EmployeeType'
+import type { Project } from '@/types/ProjectType'
 
 export const useEmployeesStore = defineStore('employees', () => {
   const toast = useToast()
   const backendUrl = `${import.meta.env.VITE_BACKEND_URL}/employees`
   const allEmployees = ref<Employee[]>([])
+  const allEmployeeProjects = ref<Project[]>([])
 
   async function fetchAllEmployees() {
     try {
@@ -69,5 +71,21 @@ export const useEmployeesStore = defineStore('employees', () => {
     }
   }
 
-  return { allEmployees, fetchAllEmployees, createEmployee }
+  async function fetchEmployeeProjects(employee: Employee) {
+    try {
+      const response = await fetch(`${backendUrl}/${employee.id}/projects/`)
+      const data = await response.json()
+      allEmployeeProjects.value = data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  return {
+    allEmployees,
+    allEmployeeProjects,
+    fetchAllEmployees,
+    createEmployee,
+    fetchEmployeeProjects,
+  }
 })
