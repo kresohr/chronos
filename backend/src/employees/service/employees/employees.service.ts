@@ -72,15 +72,15 @@ export class EmployeesService {
 
   async fetchEmployeeProjects(data: FetchEmployeeProjectsDto) {
     try {
-      return this.prisma.userProject.findMany({
+      const projects = await this.prisma.userProject.findMany({
         where: {
           userId: data.userId,
         },
         select: {
-          userId: true,
           project: true,
         },
       });
+      return projects.map((data) => data.project);
     } catch {}
   }
 }
