@@ -13,10 +13,21 @@
       :rows="5"
       :paginator="true"
       :style="[{ width: '100%' }]"
+      v-model:filters="filterProjects"
+      v-if="employeeStore.allEmployeeProjects.length > 0"
     >
+      <template #header v-if="windowWidth > 600">
+        <div class="employees__search">
+          <IconField>
+            <InputIcon>
+              <i class="pi pi-search" />
+            </InputIcon>
+            <InputText v-model="filterProjects['global'].value" placeholder="Search..." />
+          </IconField>
+        </div>
+      </template>
       <Column field="id" header="#"></Column>
       <Column field="name" header="Name"></Column>
-
       <!-- TODO: Conditionally render if the person is admin & module is enabled -->
       <Column v-if="true" class="employees__edit-column" field="remove" header="Remove">
         <template #body>
@@ -26,6 +37,9 @@
         </template>
       </Column>
     </DataTable>
+    <p v-if="employeeStore.allEmployeeProjects.length == 0" class="employees__no-results">
+      No projects found for this employee.
+    </p>
   </Dialog>
   <h1>Employees</h1>
   <p>Full list of employees</p>
@@ -37,7 +51,8 @@
         :rows="5"
         :paginator="true"
         :style="[{ width: '100%' }]"
-        v-model:filters="filters"
+        v-model:filters="filterEmployees"
+        v-if="employeeStore.allEmployees.length > 0"
       >
         <template #header v-if="windowWidth > 600">
           <div class="employees__search">
@@ -45,7 +60,7 @@
               <InputIcon>
                 <i class="pi pi-search" />
               </InputIcon>
-              <InputText v-model="filters['global'].value" placeholder="Search..." />
+              <InputText v-model="filterEmployees['global'].value" placeholder="Search..." />
             </IconField>
           </div>
         </template>
@@ -76,6 +91,9 @@
           </template>
         </Column>
       </DataTable>
+      <p v-if="employeeStore.allEmployees.length == 0" class="employees__no-results">
+        No employees found.
+      </p>
 
       <router-link class="employees__new-employee-button--wrapper" to="/employees/new">
         <!-- TODO: Conditionally render if the person is admin -->
@@ -99,7 +117,10 @@ import type { Employee } from '@/types/EmployeeType'
 const employeeStore = useEmployeesStore()
 const windowWidth = ref(window.innerWidth)
 const isDialogVisible = ref(false)
-const filters = ref({
+const filterEmployees = ref({
+  global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+})
+const filterProjects = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 })
 const selectedUser = ref<Employee>()
@@ -139,6 +160,10 @@ onUnmounted(() => {
   align-items: center;
   margin-inline: auto;
   gap: var(--spacing-small);
+
+  &__no-results {
+    text-decoration: underline;
+  }
 
   &__new-employee-button {
     &--wrapper {
