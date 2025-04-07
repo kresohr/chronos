@@ -7,6 +7,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateEmployeeDto } from 'src/employees/dtos/CreateEmployee.dto';
 import { FetchEmployeeProjectsDto } from 'src/employees/dtos/FetchEmployeeProjects.dto';
 import { DeleteEmployeeDto } from 'src/employees/dtos/DeleteEmployee.dto';
+import { DeleteEmployeeProjectDto } from 'src/employees/dtos/DeleteEmployeeProject.dto';
 
 @Injectable()
 export class EmployeesService {
@@ -81,6 +82,34 @@ export class EmployeesService {
         },
       });
       return projects.map((data) => data.project);
-    } catch {}
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(
+          `Employee with id ${data.userId} does not exist.`,
+        );
+      }
+      throw error;
+    }
+  }
+
+  async deleteProjectFromEmployee(data: DeleteEmployeeProjectDto) {
+    try {
+      const deletedProject = await this.prisma.userProject.delete({
+        where: {
+          userId_projectId: {
+            userId: data.userId,
+            projectId: data.projectId,
+          },
+        },
+      });
+      return deletedProject;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(
+          `The given userId or projectId does not exist.`,
+        );
+      }
+      throw error;
+    }
   }
 }
