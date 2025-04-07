@@ -82,6 +82,30 @@ export const useEmployeesStore = defineStore('employees', () => {
   }
 
   /* TODO: Implement the delete employee function */
+
+  async function deleteProjectFromEmployee(employee: Employee, project: Project) {
+    try {
+      const response = await fetch(`${backendUrl}/${employee.id}/projects/${project.id}`, {
+        method: 'DELETE',
+      })
+      if (!response.ok) {
+        throw new Error(`Failed to delete project: ${response.statusText}`)
+      }
+      toast.add({
+        severity: 'success',
+        summary: `${employee.email} removed from project ${project.id}!`,
+        life: 3000,
+      })
+      fetchEmployeeProjects(employee)
+    } catch (error) {
+      console.error(error)
+      toast.add({
+        severity: 'error',
+        summary: `Failed to remove employee from project ${project.id}!`,
+        life: 3000,
+      })
+    }
+  }
   /* TODO: Implement the delete project from employee function */
 
   return {
@@ -90,5 +114,6 @@ export const useEmployeesStore = defineStore('employees', () => {
     fetchAllEmployees,
     createEmployee,
     fetchEmployeeProjects,
+    deleteProjectFromEmployee,
   }
 })
