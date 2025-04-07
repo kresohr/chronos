@@ -30,8 +30,8 @@
       <Column field="name" header="Name"></Column>
       <!-- TODO: Conditionally render if the person is admin & module is enabled -->
       <Column v-if="true" class="employees__edit-column" field="remove" header="Remove">
-        <template #body>
-          <button class="employees__icon-button">
+        <template #body="{ data }">
+          <button class="employees__icon-button" @click="handleRemoveProject(data)">
             <fa-icon :icon="['fas', 'trash']" />
           </button>
         </template>
@@ -113,6 +113,7 @@ import { onUnmounted } from 'vue'
 import { useEmployeesStore } from '@/stores/employees'
 import Dialog from 'primevue/dialog'
 import type { Employee } from '@/types/EmployeeType'
+import type { Project } from '@/types/ProjectType'
 
 const employeeStore = useEmployeesStore()
 const windowWidth = ref(window.innerWidth)
@@ -133,6 +134,12 @@ const handleProjectViewClick = (user: Employee) => {
   selectedUser.value = user
   isDialogVisible.value = !isDialogVisible.value
   employeeStore.fetchEmployeeProjects(user)
+}
+
+const handleRemoveProject = (selectedProject: Project) => {
+  if (selectedUser.value) {
+    employeeStore.deleteProjectFromEmployee(selectedUser.value, selectedProject)
+  }
 }
 
 watch(isDialogVisible, () => {
