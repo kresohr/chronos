@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateProjectDto } from 'src/projects/dtos/CreateProject.dto';
 
 @Injectable()
 export class ProjectsService {
@@ -9,7 +9,7 @@ export class ProjectsService {
     return this.prisma.project.findMany();
   }
 
-  createProject(data: Prisma.ProjectCreateInput) {
+  createProject(data: CreateProjectDto) {
     return this.prisma.project.create({ data });
   }
 
