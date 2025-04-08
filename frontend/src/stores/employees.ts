@@ -106,7 +106,6 @@ export const useEmployeesStore = defineStore('employees', () => {
       })
     }
   }
-  /* TODO: Implement the delete project from employee function */
 
   return {
     allEmployees,
