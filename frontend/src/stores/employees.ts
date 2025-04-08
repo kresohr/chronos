@@ -93,7 +93,7 @@ export const useEmployeesStore = defineStore('employees', () => {
       }
       toast.add({
         severity: 'success',
-        summary: `${employee.email} removed from project ${project.id}!`,
+        summary: `${employee.email} removed from project ${project.name}!`,
         life: 3000,
       })
       fetchEmployeeProjects(employee)
@@ -101,7 +101,7 @@ export const useEmployeesStore = defineStore('employees', () => {
       console.error(error)
       toast.add({
         severity: 'error',
-        summary: `Failed to remove employee from project ${project.id}!`,
+        summary: `Failed to remove employee from project ${project.name}!`,
         life: 3000,
       })
     }
