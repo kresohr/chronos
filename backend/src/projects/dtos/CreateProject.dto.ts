@@ -1,8 +1,8 @@
-import { IsNotEmpty, Length, Max, max, Min } from 'class-validator';
+import { IsNotEmpty, MaxLength, MinLength } from 'class-validator';
 
 export class CreateProjectDto {
   @IsNotEmpty()
-  @Min(2)
-  @Max(35)
+  @MinLength(2)
+  @MaxLength(35)
   name: string;
 }
