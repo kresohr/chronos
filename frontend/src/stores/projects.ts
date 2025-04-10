@@ -95,5 +95,10 @@ export const useProjectsStore = defineStore('projects', () => {
     }
   }
 
-  return { allProjects, fetchAllProjects, createProject, deleteProject }
+  //TODO: Work in progress
+  async function modifyProject(name: string, projectId: number) {
+    console.log('Name: ', name, 'Project ID: ', projectId)
+  }
+
+  return { allProjects, fetchAllProjects, createProject, deleteProject, modifyProject }
 })
