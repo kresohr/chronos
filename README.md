@@ -45,5 +45,6 @@ The idea is to keep GIT commits clean and structured in a way that it is easier 
 - **UI-FIX**: Used for small UI fixes like changes in the margin, padding, color, etc.
 - **FIX**: Bugfixes, improvements
 - **REFACTOR**: Technical debt and code refactoring
+- **WIP**: Work in progress
 
 **Note:** Component implementation and progress has no tag
