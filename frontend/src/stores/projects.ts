@@ -118,9 +118,36 @@ export const useProjectsStore = defineStore('projects', () => {
     }
   }
 
-  //TODO: Work in progress
   async function modifyProject(name: string, projectId: number) {
-    console.log('Name: ', name, 'Project ID: ', projectId)
+    const updateProject = { id: projectId, name }
+    try {
+      const response = await fetch(`${backendUrl}/${projectId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updateProject),
+      })
+
+      if (!response.ok) {
+        throw new Error(`Unable to update project! ${response.statusText}`)
+      }
+      toast.add({
+        severity: 'success',
+        summary: 'Success',
+        detail: 'Updated project name successfully.',
+        life: 3000,
+      })
+      fetchProjectDetails(projectId)
+    } catch (error: any) {
+      console.error(error)
+      toast.add({
+        severity: 'error',
+        summary: 'Failed to update project.',
+        detail: error.message,
+        life: 3000,
+      })
+    }
   }
 
   return {
