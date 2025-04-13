@@ -7,6 +7,8 @@ export const useProjectsStore = defineStore('projects', () => {
   const toast = useToast()
   const backendUrl = `${import.meta.env.VITE_BACKEND_URL}/projects`
   const allProjects = ref<Project[]>([])
+  const singleProjectDetails = ref<Project>()
+  const isFetchingProjectDetails = ref(false)
 
   async function fetchAllProjects() {
     try {
@@ -95,10 +97,40 @@ export const useProjectsStore = defineStore('projects', () => {
     }
   }
 
+  async function fetchProjectDetails(id: number) {
+    try {
+      isFetchingProjectDetails.value = true
+      const response = await fetch(`${backendUrl}/${id}`)
+      if (!response.ok) {
+        throw new Error(`Unable to fetch projects details! ${response.statusText}`)
+      }
+      singleProjectDetails.value = await response.json().then()
+    } catch (error: any) {
+      console.error(error)
+      toast.add({
+        severity: 'error',
+        summary: 'Failed to fetch projects.',
+        detail: error.message,
+        life: 3000,
+      })
+    } finally {
+      isFetchingProjectDetails.value = false
+    }
+  }
+
   //TODO: Work in progress
   async function modifyProject(name: string, projectId: number) {
     console.log('Name: ', name, 'Project ID: ', projectId)
   }
 
-  return { allProjects, fetchAllProjects, createProject, deleteProject, modifyProject }
+  return {
+    allProjects,
+    fetchAllProjects,
+    createProject,
+    deleteProject,
+    modifyProject,
+    fetchProjectDetails,
+    singleProjectDetails,
+    isFetchingProjectDetails,
+  }
 })
