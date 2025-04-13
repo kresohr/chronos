@@ -1,12 +1,22 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProjectDto } from 'src/projects/dtos/CreateProject.dto';
+import { FetchProjectDetailsDto } from 'src/projects/dtos/FetchProjectDetails.dto';
 
 @Injectable()
 export class ProjectsService {
   constructor(private prisma: PrismaService) {}
+
   fetchProjects() {
     return this.prisma.project.findMany();
+  }
+
+  fetchProjectDetails(data: FetchProjectDetailsDto) {
+    return this.prisma.project.findUnique({
+      where: {
+        id: data.id,
+      },
+    });
   }
 
   createProject(data: CreateProjectDto) {
