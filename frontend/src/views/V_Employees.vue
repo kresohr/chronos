@@ -40,6 +40,13 @@
     <p v-if="employeeStore.allEmployeeProjects.length == 0" class="employees__no-results">
       No projects found for this employee.
     </p>
+    <div class="employees__dialog__button--wrapper">
+      <!-- TODO: Modify route when new view is added -->
+      <router-link to="/projects/new" style="margin-left: auto">
+        <!-- TODO: Conditionally render if the person is admin -->
+        <Button v-if="true" label="Assign Project" />
+      </router-link>
+    </div>
   </Dialog>
   <h1>Employees</h1>
   <p>Full list of employees</p>
@@ -167,6 +174,16 @@ onUnmounted(() => {
   align-items: center;
   margin-inline: auto;
   gap: var(--spacing-small);
+
+  &__dialog {
+    &__button {
+      &--wrapper {
+        display: flex;
+        justify-content: end;
+        margin-top: var(--spacing-small);
+      }
+    }
+  }
 
   &__no-results {
     text-decoration: underline;
