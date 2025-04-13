@@ -2,10 +2,13 @@
   <!-- TODO: Guard route if user is not admin -->
 
   <h1>Manage Project</h1>
-  <p>Modify {{}} on this page</p>
+  <p>Modify {{ projectDetails?.name }} on this page</p>
 
-  <section>
-    <div class="create-project">
+  <div v-if="isFetchingProjectDetails" class="manage-project__spinner">
+    <ProgressSpinner />
+  </div>
+  <section v-if="!isFetchingProjectDetails">
+    <div class="manage-project">
       <Form
         :initialValues
         :resolver="zodFormResolver"
@@ -31,12 +34,18 @@ import { InputText, Button, Message } from 'primevue'
 import { z } from 'zod'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { useToast } from 'primevue/usetoast'
-import { useProjectsStore } from '@/stores/projects' // Import project store
+import { useProjectsStore } from '@/stores/projects'
 import { useRouter } from 'vue-router'
+import { computed } from 'vue'
+import ProgressSpinner from 'primevue/progressspinner'
 
-const projectsStore = useProjectsStore() // Use project store
+const projectsStore = useProjectsStore()
 const toast = useToast()
 const router = useRouter()
+const projectIdFromParams = router.currentRoute.value.params.id
+projectsStore.fetchProjectDetails(Number(projectIdFromParams))
+const isFetchingProjectDetails = computed(() => projectsStore.isFetchingProjectDetails)
+const projectDetails = computed(() => projectsStore.singleProjectDetails)
 
 const zodSchema = z.object({
   name: z
@@ -66,7 +75,7 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any })
 </script>
 
 <style scoped lang="scss">
-.create-project {
+.manage-project {
   margin-top: var(--spacing-large);
   display: flex;
   flex-direction: column;
@@ -74,6 +83,14 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any })
   align-items: center;
   margin-inline: auto;
   gap: var(--spacing-small);
+
+  &__spinner {
+    display: flex;
+    justify-content: center;
+    margin-inline: auto;
+    height: 50px;
+    width: 50px;
+  }
 }
 
 .form-container {
