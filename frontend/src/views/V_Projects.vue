@@ -28,10 +28,15 @@
         <!-- TODO: Conditionally render if the person is admin & module is enabled -->
         <!-- TODO: Implement a navigation to new edit page where projects can be modified or deleted -->
         <Column v-if="true" class="projects__edit-column" field="edit" header="Edit">
-          <template #body>
-            <button class="projects__edit-button">
-              <fa-icon :icon="['fas', 'pencil']" />
-            </button>
+          <template #body="data">
+            <router-link
+              :to="`/projects/manage/${data.data.id}`"
+              class="projects__icon-button--link"
+            >
+              <button class="projects__icon-button">
+                <fa-icon :icon="['fas', 'pencil']" />
+              </button>
+            </router-link>
           </template>
         </Column>
       </DataTable>
@@ -54,7 +59,6 @@ import Column from 'primevue/column'
 import { Button, IconField, InputIcon, InputText } from 'primevue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useProjectsStore } from '@/stores/projects'
-import { RouterLink } from 'vue-router'
 
 const projectStore = useProjectsStore()
 const filters = ref({
@@ -102,11 +106,15 @@ onUnmounted(() => {
     }
   }
 
-  &__edit-button {
+  &__icon-button {
     all: unset;
     cursor: pointer;
     display: block;
     margin-inline: auto;
+
+    &--link {
+      all: unset;
+    }
   }
 
   @media screen and (min-width: 1300px) {
