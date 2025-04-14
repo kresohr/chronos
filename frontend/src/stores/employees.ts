@@ -81,7 +81,18 @@ export const useEmployeesStore = defineStore('employees', () => {
     }
   }
 
-  /* TODO: Implement the delete employee function */
+  async function deleteEmployee(employee: Employee) {
+    try {
+      await fetch(`${backendUrl}/${employee.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   async function deleteProjectFromEmployee(employee: Employee, project: Project) {
     try {
@@ -114,5 +125,6 @@ export const useEmployeesStore = defineStore('employees', () => {
     createEmployee,
     fetchEmployeeProjects,
     deleteProjectFromEmployee,
+    deleteEmployee,
   }
 })
