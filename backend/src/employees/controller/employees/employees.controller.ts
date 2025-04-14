@@ -29,10 +29,11 @@ export class EmployeesController {
     return this.employeesService.createEmployee(employeeData);
   }
 
-  @Delete()
+  @Delete(':id')
   @UsePipes(new ValidationPipe())
-  deleteEmployee(@Body() employeeData: DeleteEmployeeDto) {
-    return this.employeesService.deleteEmployee(employeeData);
+  deleteEmployee(@Param('id', ParseIntPipe) userId: number) {
+    const dto: DeleteEmployeeDto = { userId };
+    return this.employeesService.deleteEmployee(dto);
   }
 
   @Delete(':userid/projects/:projectid')
