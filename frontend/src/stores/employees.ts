@@ -9,6 +9,7 @@ export const useEmployeesStore = defineStore('employees', () => {
   const backendUrl = `${import.meta.env.VITE_BACKEND_URL}/employees`
   const allEmployees = ref<Employee[]>([])
   const allEmployeeProjects = ref<Project[]>([])
+  const isFetchingEmployeeDetails = ref(false)
 
   async function fetchAllEmployees() {
     try {
@@ -93,6 +94,26 @@ export const useEmployeesStore = defineStore('employees', () => {
       console.error(error)
     }
   }
+  async function fetchEmployeeDetails(employee: Employee) {
+    try {
+      isFetchingEmployeeDetails.value = true
+      await fetch(`${backendUrl}/${employee.id}`)
+      toast.add({
+        severity: 'success',
+        summary: 'Employee modified successfully!',
+        life: 3000,
+      })
+    } catch (error) {
+      console.error(error)
+      toast.add({
+        severity: 'error',
+        summary: `Failed to fetch employee details!`,
+        life: 3000,
+      })
+    } finally {
+      isFetchingEmployeeDetails.value = false
+    }
+  }
 
   async function deleteProjectFromEmployee(employee: Employee, project: Project) {
     try {
@@ -126,5 +147,6 @@ export const useEmployeesStore = defineStore('employees', () => {
     fetchEmployeeProjects,
     deleteProjectFromEmployee,
     deleteEmployee,
+    fetchEmployeeDetails,
   }
 })
