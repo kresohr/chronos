@@ -13,7 +13,7 @@ import { CreateEmployeeDto } from 'src/employees/dtos/CreateEmployee.dto';
 import { DeleteEmployeeDto } from 'src/employees/dtos/DeleteEmployee.dto';
 import { DeleteEmployeeProjectDto } from 'src/employees/dtos/DeleteEmployeeProject.dto';
 import { FetchEmployeeProjectsDto } from 'src/employees/dtos/FetchEmployeeProjects.dto';
-import { EmployeesService } from 'src/employees/service/employees/employees.service';
+import { EmployeesService } from 'src/employees/service/employees.service';
 
 @Controller('employees')
 export class EmployeesController {

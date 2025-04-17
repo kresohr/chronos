@@ -14,7 +14,7 @@ import { CreateProjectDto } from 'src/projects/dtos/CreateProject.dto';
 import { DeleteProjectDto } from 'src/projects/dtos/DeleteProject.dto';
 import { FetchProjectDetailsDto } from 'src/projects/dtos/FetchProjectDetails.dto';
 import { ModifyProjectDto } from 'src/projects/dtos/ModifyProject.dto';
-import { ProjectsService } from 'src/projects/services/projects/projects.service';
+import { ProjectsService } from 'src/projects/services/projects.service';
 
 @Controller('projects')
 export class ProjectsController {

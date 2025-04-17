@@ -94,10 +94,10 @@ export const useEmployeesStore = defineStore('employees', () => {
       console.error(error)
     }
   }
-  async function fetchEmployeeDetails(employee: Employee) {
+  async function fetchEmployeeDetails(employeeId: Number) {
     try {
       isFetchingEmployeeDetails.value = true
-      await fetch(`${backendUrl}/${employee.id}`)
+      await fetch(`${backendUrl}/${employeeId}`)
       toast.add({
         severity: 'success',
         summary: 'Employee modified successfully!',
