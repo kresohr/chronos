@@ -14,6 +14,7 @@ import { DeleteEmployeeDto } from 'src/employees/dtos/DeleteEmployee.dto';
 import { DeleteEmployeeProjectDto } from 'src/employees/dtos/DeleteEmployeeProject.dto';
 import { FetchEmployeeProjectsDto } from 'src/employees/dtos/FetchEmployeeProjects.dto';
 import { EmployeesService } from 'src/employees/service/employees.service';
+import { FetchEmployeeDetailsDto } from '../dtos/FetchEmployeeDetails.dto';
 
 @Controller('employees')
 export class EmployeesController {
@@ -21,6 +22,20 @@ export class EmployeesController {
   @Get()
   getEmployees() {
     return this.employeesService.getEmployees();
+  }
+
+  @Get(':userid/projects/')
+  @UsePipes(new ValidationPipe())
+  getEmployeeProjects(@Param('userid', ParseIntPipe) userId: number) {
+    const dto: FetchEmployeeProjectsDto = { userId };
+    return this.employeesService.fetchEmployeeProjects(dto);
+  }
+
+  @Get(':userid')
+  @UsePipes(new ValidationPipe())
+  fetchEmployeeDetails(@Param('userid', ParseIntPipe) userId: number) {
+    const dto: FetchEmployeeDetailsDto = { userId };
+    return this.employeesService.fetchEmployeeDetails(dto);
   }
 
   @Post()
@@ -44,12 +59,5 @@ export class EmployeesController {
   ) {
     const dto: DeleteEmployeeProjectDto = { userId, projectId };
     return this.employeesService.deleteProjectFromEmployee(dto);
-  }
-
-  @Get(':userid/projects/')
-  @UsePipes(new ValidationPipe())
-  getEmployeeProjects(@Param('userid', ParseIntPipe) employeeData: number) {
-    const dto: FetchEmployeeProjectsDto = { userId: employeeData };
-    return this.employeesService.fetchEmployeeProjects(dto);
   }
 }
