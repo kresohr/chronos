@@ -8,6 +8,7 @@ import { CreateEmployeeDto } from 'src/employees/dtos/CreateEmployee.dto';
 import { FetchEmployeeProjectsDto } from 'src/employees/dtos/FetchEmployeeProjects.dto';
 import { DeleteEmployeeDto } from 'src/employees/dtos/DeleteEmployee.dto';
 import { DeleteEmployeeProjectDto } from 'src/employees/dtos/DeleteEmployeeProject.dto';
+import { FetchEmployeeDetailsDto } from '../dtos/FetchEmployeeDetails.dto';
 
 @Injectable()
 export class EmployeesService {
@@ -53,24 +54,6 @@ export class EmployeesService {
     }
   }
 
-  async deleteEmployee(data: DeleteEmployeeDto) {
-    try {
-      const deletedEmployee = await this.prisma.user.delete({
-        where: {
-          id: data.userId,
-        },
-      });
-      return deletedEmployee;
-    } catch (error) {
-      if (error.code === 'P2025') {
-        throw new NotFoundException(
-          `Employee with id ${data.userId} does not exist.`,
-        );
-      }
-      throw error;
-    }
-  }
-
   async fetchEmployeeProjects(data: FetchEmployeeProjectsDto) {
     try {
       const projects = await this.prisma.userProject.findMany({
@@ -82,6 +65,41 @@ export class EmployeesService {
         },
       });
       return projects.map((data) => data.project);
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(
+          `Employee with id ${data.userId} does not exist.`,
+        );
+      }
+      throw error;
+    }
+  }
+
+  async fetchEmployeeDetails(data: FetchEmployeeDetailsDto) {
+    try {
+      const fetchedEmployee = await this.prisma.user.findUnique({
+        where: {
+          id: data.userId,
+        },
+      });
+      return fetchedEmployee;
+    } catch (error) {
+      if ((error.code = 'P2025')) {
+        throw new NotFoundException(
+          `Employee with id ${data.userId} does not exist.`,
+        );
+      }
+    }
+  }
+
+  async deleteEmployee(data: DeleteEmployeeDto) {
+    try {
+      const deletedEmployee = await this.prisma.user.delete({
+        where: {
+          id: data.userId,
+        },
+      });
+      return deletedEmployee;
     } catch (error) {
       if (error.code === 'P2025') {
         throw new NotFoundException(
