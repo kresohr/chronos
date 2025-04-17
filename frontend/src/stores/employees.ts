@@ -8,6 +8,7 @@ export const useEmployeesStore = defineStore('employees', () => {
   const toast = useToast()
   const backendUrl = `${import.meta.env.VITE_BACKEND_URL}/employees`
   const allEmployees = ref<Employee[]>([])
+  const employeeDetails = ref<Employee>()
   const allEmployeeProjects = ref<Project[]>([])
   const isFetchingEmployeeDetails = ref(false)
 
@@ -94,10 +95,13 @@ export const useEmployeesStore = defineStore('employees', () => {
       console.error(error)
     }
   }
+
   async function fetchEmployeeDetails(employeeId: Number) {
     try {
       isFetchingEmployeeDetails.value = true
-      await fetch(`${backendUrl}/${employeeId}`)
+      const request = await fetch(`${backendUrl}/${employeeId}`)
+      const data = await request.json()
+      employeeDetails.value = data
     } catch (error) {
       console.error(error)
       toast.add({
@@ -143,5 +147,6 @@ export const useEmployeesStore = defineStore('employees', () => {
     deleteProjectFromEmployee,
     deleteEmployee,
     fetchEmployeeDetails,
+    employeeDetails,
   }
 })
