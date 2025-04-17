@@ -91,8 +91,8 @@
           </template>
         </Column>
         <Column class="employees__edit-column" field="edit" header="Edit">
-          <template #body>
-            <button class="employees__icon-button">
+          <template #body="{ data }">
+            <button class="employees__icon-button" @click="handleEditEmployeeClick(data)">
               <fa-icon :icon="['fas', 'pencil']" />
             </button>
           </template>
@@ -121,6 +121,7 @@ import { useEmployeesStore } from '@/stores/employees'
 import Dialog from 'primevue/dialog'
 import type { Employee } from '@/types/EmployeeType'
 import type { Project } from '@/types/ProjectType'
+import router from '@/router'
 
 const employeeStore = useEmployeesStore()
 const windowWidth = ref(window.innerWidth)
@@ -147,6 +148,10 @@ const handleRemoveProject = (selectedProject: Project) => {
   if (selectedUser.value) {
     employeeStore.deleteProjectFromEmployee(selectedUser.value, selectedProject)
   }
+}
+
+const handleEditEmployeeClick = (user: Employee) => {
+  router.push(`employees/manage/${user.id}`)
 }
 
 watch(isDialogVisible, () => {
