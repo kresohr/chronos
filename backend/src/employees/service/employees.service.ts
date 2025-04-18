@@ -9,6 +9,8 @@ import { FetchEmployeeProjectsDto } from 'src/employees/dtos/FetchEmployeeProjec
 import { DeleteEmployeeDto } from 'src/employees/dtos/DeleteEmployee.dto';
 import { DeleteEmployeeProjectDto } from 'src/employees/dtos/DeleteEmployeeProject.dto';
 import { FetchEmployeeDetailsDto } from '../dtos/FetchEmployeeDetails.dto';
+import { FetchEmployeeRolesDto } from '../dtos/FetchEmployeeRoles.dto';
+import { DeleteEmployeeRoleDto } from '../dtos/DeleteEmployeeRole.dto';
 
 @Injectable()
 export class EmployeesService {
@@ -75,6 +77,27 @@ export class EmployeesService {
     }
   }
 
+  async fetchEmployeeRoles(data: FetchEmployeeRolesDto) {
+    try {
+      const roles = await this.prisma.userRole.findMany({
+        where: {
+          userId: data.userId,
+        },
+        select: {
+          role: true,
+        },
+      });
+      return roles.map((data) => data.role);
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(
+          `Employee with id ${data.userId} does not exist.`,
+        );
+      }
+      throw error;
+    }
+  }
+
   async fetchEmployeeDetails(data: FetchEmployeeDetailsDto) {
     try {
       const fetchedEmployee = await this.prisma.user.findUnique({
@@ -125,6 +148,27 @@ export class EmployeesService {
       if (error.code === 'P2025') {
         throw new NotFoundException(
           `The given userId or projectId does not exist.`,
+        );
+      }
+      throw error;
+    }
+  }
+
+  async deleteRoleFromEmployee(data: DeleteEmployeeRoleDto) {
+    try {
+      const deletedRole = await this.prisma.userRole.delete({
+        where: {
+          userId_roleId: {
+            userId: data.userId,
+            roleId: data.roleId,
+          },
+        },
+      });
+      return deletedRole;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(
+          `The given userId or roleId does not exist.`,
         );
       }
       throw error;
