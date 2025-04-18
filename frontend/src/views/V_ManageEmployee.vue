@@ -7,32 +7,38 @@
     <div class="manage-employee">
       <!-- TODO: Check how to update PrimeVue Form component fields after employeeDetails is fetched. -->
       <Form
-        :initialValues="initialValues"
+        :initialValues="formValues"
         :resolver="zodFormResolver"
         @submit="onFormSubmit"
         class="form-container"
       >
         <FormField v-slot="$field" name="email" class="form-field">
-          <InputText type="text" placeholder="E-mail address" />
+          <InputText type="text" placeholder="E-mail address" v-model="formValues.email" />
           <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
             {{ $field.error?.message }}
           </Message>
         </FormField>
 
         <FormField v-slot="$field" name="firstname" class="form-field">
-          <InputText type="text" placeholder="First Name" />
+          <InputText type="text" placeholder="First Name" v-model="formValues.firstname" />
           <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
             {{ $field.error?.message }}
           </Message>
         </FormField>
 
         <FormField v-slot="$field" name="lastname" initialValue="" class="form-field">
-          <InputText type="text" placeholder="Last Name" class="form-field__input-text" />
+          <InputText
+            type="text"
+            placeholder="Last Name"
+            class="form-field__input-text"
+            v-model="formValues.lastname"
+          />
           <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
             {{ $field.error?.message }}
           </Message>
         </FormField>
 
+        <!-- TODO: Prefetch roles and projects for user -->
         <!-- Add conditional render if role is enabled as a module -->
         <FormField v-if="true" v-slot="$field" name="role" class="form-field">
           <Dropdown
@@ -121,7 +127,7 @@ const zodFormResolver = zodResolver(zodSchema)
 const employeeIdFromParams = router.currentRoute.value.params.id
 employeeStore.fetchEmployeeDetails(Number(employeeIdFromParams))
 const employeeDetails = computed(() => employeeStore.employeeDetails)
-const initialValues = ref({
+const formValues = ref({
   email: '',
   firstname: '',
   lastname: '',
@@ -178,7 +184,7 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any })
 
 watch(employeeDetails, () => {
   if (employeeDetails.value) {
-    initialValues.value = {
+    formValues.value = {
       email: employeeDetails.value.email,
       firstname: employeeDetails.value.firstName,
       lastname: employeeDetails.value.lastName,
