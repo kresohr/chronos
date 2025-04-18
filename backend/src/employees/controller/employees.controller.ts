@@ -15,6 +15,8 @@ import { DeleteEmployeeProjectDto } from 'src/employees/dtos/DeleteEmployeeProje
 import { FetchEmployeeProjectsDto } from 'src/employees/dtos/FetchEmployeeProjects.dto';
 import { EmployeesService } from 'src/employees/service/employees.service';
 import { FetchEmployeeDetailsDto } from '../dtos/FetchEmployeeDetails.dto';
+import { FetchEmployeeRolesDto } from '../dtos/FetchEmployeeRoles.dto';
+import { DeleteEmployeeRoleDto } from '../dtos/DeleteEmployeeRole.dto';
 
 @Controller('employees')
 export class EmployeesController {
@@ -29,6 +31,13 @@ export class EmployeesController {
   getEmployeeProjects(@Param('userid', ParseIntPipe) userId: number) {
     const dto: FetchEmployeeProjectsDto = { userId };
     return this.employeesService.fetchEmployeeProjects(dto);
+  }
+
+  @Get(':userid/roles/')
+  @UsePipes(new ValidationPipe())
+  getEmployeeRoles(@Param('userid', ParseIntPipe) userId: number) {
+    const dto: FetchEmployeeRolesDto = { userId };
+    return this.employeesService.fetchEmployeeRoles(dto);
   }
 
   @Get(':userid')
@@ -59,5 +68,15 @@ export class EmployeesController {
   ) {
     const dto: DeleteEmployeeProjectDto = { userId, projectId };
     return this.employeesService.deleteProjectFromEmployee(dto);
+  }
+
+  @Delete(':userid/roles/:roleid')
+  @UsePipes(new ValidationPipe())
+  deletRoleFromEmployee(
+    @Param('userid', ParseIntPipe) userId: number,
+    @Param('roleid', ParseIntPipe) roleId: number,
+  ) {
+    const dto: DeleteEmployeeRoleDto = { userId, roleId };
+    return this.employeesService.deleteRoleFromEmployee(dto);
   }
 }
