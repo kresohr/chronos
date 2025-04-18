@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { useToast } from 'primevue/usetoast'
 import type { Employee } from '@/types/EmployeeType'
 import type { Project } from '@/types/ProjectType'
+import type { Role } from '@/types/RoleType'
 
 export const useEmployeesStore = defineStore('employees', () => {
   const toast = useToast()
@@ -10,6 +11,8 @@ export const useEmployeesStore = defineStore('employees', () => {
   const allEmployees = ref<Employee[]>([])
   const employeeDetails = ref<Employee>()
   const allEmployeeProjects = ref<Project[]>([])
+  const allEmployeeRoles = ref<Role[]>([])
+
   const isFetchingEmployeeDetails = ref(false)
 
   async function fetchAllEmployees() {
@@ -22,6 +25,48 @@ export const useEmployeesStore = defineStore('employees', () => {
     }
   }
 
+  async function fetchEmployeeProjects(employee: Employee) {
+    try {
+      const response = await fetch(`${backendUrl}/${employee.id}/projects/`)
+      const data = await response.json()
+      allEmployeeProjects.value = data
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function fetchEmployeeRoles(employee: Employee) {
+    try {
+      const response = await fetch(`${backendUrl}/${employee.id}/roles/`)
+      const data = await response.json()
+      allEmployeeRoles.value = data
+    } catch (error) {
+      console.error(error)
+      toast.add({
+        severity: 'error',
+        summary: `Failed to fetch employee roles!`,
+        life: 3000,
+      })
+    }
+  }
+
+  async function fetchEmployeeDetails(employeeId: Number) {
+    try {
+      isFetchingEmployeeDetails.value = true
+      const request = await fetch(`${backendUrl}/${employeeId}`)
+      const data = await request.json()
+      employeeDetails.value = data
+    } catch (error) {
+      console.error(error)
+      toast.add({
+        severity: 'error',
+        summary: `Failed to fetch employee details!`,
+        life: 3000,
+      })
+    } finally {
+      isFetchingEmployeeDetails.value = false
+    }
+  }
   async function createEmployee(
     firstName: string,
     lastName: string,
@@ -73,16 +118,6 @@ export const useEmployeesStore = defineStore('employees', () => {
     }
   }
 
-  async function fetchEmployeeProjects(employee: Employee) {
-    try {
-      const response = await fetch(`${backendUrl}/${employee.id}/projects/`)
-      const data = await response.json()
-      allEmployeeProjects.value = data
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
   async function deleteEmployee(employee: Employee) {
     try {
       await fetch(`${backendUrl}/${employee.id}`, {
@@ -93,24 +128,6 @@ export const useEmployeesStore = defineStore('employees', () => {
       })
     } catch (error) {
       console.error(error)
-    }
-  }
-
-  async function fetchEmployeeDetails(employeeId: Number) {
-    try {
-      isFetchingEmployeeDetails.value = true
-      const request = await fetch(`${backendUrl}/${employeeId}`)
-      const data = await request.json()
-      employeeDetails.value = data
-    } catch (error) {
-      console.error(error)
-      toast.add({
-        severity: 'error',
-        summary: `Failed to fetch employee details!`,
-        life: 3000,
-      })
-    } finally {
-      isFetchingEmployeeDetails.value = false
     }
   }
 
@@ -138,15 +155,42 @@ export const useEmployeesStore = defineStore('employees', () => {
     }
   }
 
+  async function deleteRoleFromEmployee(employee: Employee, role: Role) {
+    try {
+      const response = await fetch(`${backendUrl}/${employee.id}/roles/${role.id}`, {
+        method: 'DELETE',
+      })
+      if (!response.ok) {
+        throw new Error(`Failed to delete role from employee: ${response.statusText}`)
+      }
+      toast.add({
+        severity: 'success',
+        summary: `${role.name} removed from ${employee.email}!`,
+        life: 3000,
+      })
+      fetchEmployeeRoles(employee)
+    } catch (error) {
+      console.error(error)
+      toast.add({
+        severity: 'error',
+        summary: `Failed to remove '${role.name}' from '${employee.email}'!`,
+        life: 3000,
+      })
+    }
+  }
+
   return {
+    employeeDetails,
     allEmployees,
     allEmployeeProjects,
+    allEmployeeRoles,
     fetchAllEmployees,
-    createEmployee,
+    fetchEmployeeDetails,
     fetchEmployeeProjects,
+    fetchEmployeeRoles,
+    createEmployee,
     deleteProjectFromEmployee,
     deleteEmployee,
-    fetchEmployeeDetails,
-    employeeDetails,
+    deleteRoleFromEmployee,
   }
 })
