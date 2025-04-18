@@ -3,18 +3,24 @@
   <Dialog
     v-model:visible="isDialogVisible"
     modal
-    :header="`Projects for ${selectedUser?.email}`"
+    :header="
+      isRoleDialog ? `Roles for ${selectedUser?.email}` : `Projects for ${selectedUser?.email}`
+    "
     :style="{ width: '50rem' }"
     :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
     :draggable="false"
   >
     <DataTable
-      :value="employeeStore.allEmployeeProjects"
+      :value="isRoleDialog ? employeeStore.allEmployeeRoles : employeeStore.allEmployeeProjects"
       :rows="5"
       :paginator="true"
       :style="[{ width: '100%' }]"
-      v-model:filters="filterProjects"
-      v-if="employeeStore.allEmployeeProjects.length > 0"
+      v-model:filters="filterRolesAndProjects"
+      v-if="
+        isRoleDialog
+          ? employeeStore.allEmployeeRoles.length > 0
+          : employeeStore.allEmployeeProjects.length > 0
+      "
     >
       <template #header v-if="windowWidth > 600">
         <div class="employees__search">
@@ -22,23 +28,35 @@
             <InputIcon>
               <i class="pi pi-search" />
             </InputIcon>
-            <InputText v-model="filterProjects['global'].value" placeholder="Search..." />
+            <InputText v-model="filterRolesAndProjects['global'].value" placeholder="Search..." />
           </IconField>
         </div>
       </template>
       <Column field="id" header="#"></Column>
       <Column field="name" header="Name"></Column>
       <!-- TODO: Conditionally render if the person is admin & module is enabled -->
-      <Column v-if="true" class="employees__edit-column" field="remove" header="Remove">
+      <Column v-if="true" class="employees__action-column" field="remove" header="Remove">
         <template #body="{ data }">
-          <button class="employees__icon-button" @click="handleRemoveProject(data)">
+          <button
+            class="employees__icon-button"
+            @click="isRoleDialog ? handleRemoveRole(data) : handleRemoveProject(data)"
+          >
             <fa-icon :icon="['fas', 'trash']" />
           </button>
         </template>
       </Column>
     </DataTable>
-    <p v-if="employeeStore.allEmployeeProjects.length == 0" class="employees__no-results">
-      No projects found for this employee.
+    <p
+      v-if="
+        isRoleDialog
+          ? employeeStore.allEmployeeRoles.length === 0
+          : employeeStore.allEmployeeProjects.length === 0
+      "
+      class="employees__no-results"
+    >
+      {{
+        isRoleDialog ? 'No roles found for this employee.' : 'No projects found for this employee.'
+      }}
     </p>
     <div class="employees__dialog__button--wrapper">
       <!-- TODO: Modify route when new view is added -->
@@ -74,14 +92,22 @@
         <Column field="firstName" header="Name" sortable></Column>
         <Column field="lastName" header="Last Name" sortable></Column>
         <Column field="email" header="Email" :hidden="windowWidth < 600"></Column>
-        <Column field="role" header="Role" :hidden="windowWidth < 600" sortable></Column>
-
         <Column
-          class="employees__projects-column"
-          field="projects"
-          header="Projects"
+          class="employees__action-column"
+          field="role"
+          header="Role"
           style="margin-inline: auto"
-        >
+          :hidden="windowWidth < 600"
+          sortable
+          ><template #body="{ data }">
+            <Button
+              class="employees__view-button"
+              label="View"
+              @click="handleRoleViewClick(data)"
+            /> </template
+        ></Column>
+
+        <Column class="employees__action-column" field="projects" header="Projects">
           <template #body="{ data }">
             <Button
               class="employees__view-button"
@@ -90,7 +116,7 @@
             />
           </template>
         </Column>
-        <Column class="employees__edit-column" field="edit" header="Edit">
+        <Column class="employees__action-column" field="edit" header="Edit">
           <template #body="{ data }">
             <button class="employees__icon-button" @click="handleEditEmployeeClick(data)">
               <fa-icon :icon="['fas', 'pencil']" />
@@ -122,14 +148,16 @@ import Dialog from 'primevue/dialog'
 import type { Employee } from '@/types/EmployeeType'
 import type { Project } from '@/types/ProjectType'
 import router from '@/router'
+import type { Role } from '@/types/RoleType'
 
 const employeeStore = useEmployeesStore()
 const windowWidth = ref(window.innerWidth)
 const isDialogVisible = ref(false)
+const isRoleDialog = ref(false)
 const filterEmployees = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 })
-const filterProjects = ref({
+const filterRolesAndProjects = ref({
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 })
 const selectedUser = ref<Employee>()
@@ -138,15 +166,29 @@ const updateWidth = () => {
   windowWidth.value = window.innerWidth
 }
 
+const handleRoleViewClick = (user: Employee) => {
+  selectedUser.value = user
+  isDialogVisible.value = !isDialogVisible.value
+  employeeStore.fetchEmployeeRoles(user)
+  isRoleDialog.value = true
+}
+
 const handleProjectViewClick = (user: Employee) => {
   selectedUser.value = user
   isDialogVisible.value = !isDialogVisible.value
   employeeStore.fetchEmployeeProjects(user)
+  isRoleDialog.value = false
 }
 
 const handleRemoveProject = (selectedProject: Project) => {
   if (selectedUser.value) {
     employeeStore.deleteProjectFromEmployee(selectedUser.value, selectedProject)
+  }
+}
+
+const handleRemoveRole = (selectedRole: Role) => {
+  if (selectedUser.value) {
+    employeeStore.deleteRoleFromEmployee(selectedUser.value, selectedRole)
   }
 }
 
@@ -223,12 +265,8 @@ onUnmounted(() => {
   }
 }
 
-:deep(.employees__projects-column .p-datatable-column-header-content) {
-  align-items: center;
-  justify-content: center;
-}
-
-:deep(.employees__edit-column .p-datatable-column-header-content) {
+:deep(.employees__action-column .p-datatable-column-header-content) {
+  margin-inline: auto;
   align-items: center;
   justify-content: center;
 }
