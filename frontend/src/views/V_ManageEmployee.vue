@@ -42,7 +42,7 @@
         <!-- Add conditional render if role is enabled as a module -->
         <FormField v-if="true" v-slot="$field" name="role" class="form-field">
           <Dropdown
-            v-model="selectedRole"
+            v-model="formValues.role"
             :options="roles"
             optionLabel="name"
             placeholder="Select a Role"
@@ -101,13 +101,11 @@ import { z } from 'zod'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { useToast } from 'primevue/usetoast'
 import { useEmployeesStore } from '@/stores/employees'
-import { useRolesStore } from '@/stores/roles'
 import router from '@/router'
 import { useProjectsStore } from '@/stores/projects'
 
 const employeeStore = useEmployeesStore()
 const projectsStore = useProjectsStore()
-const rolesStore = useRolesStore()
 const toast = useToast()
 const zodSchema = z.object({
   email: z.string().email('Invalid email'),
@@ -126,25 +124,26 @@ const zodFormResolver = zodResolver(zodSchema)
 
 const employeeIdFromParams = router.currentRoute.value.params.id
 employeeStore.fetchEmployeeDetails(Number(employeeIdFromParams))
+employeeStore.fetchEmployeeRoles(Number(employeeIdFromParams))
 const employeeDetails = computed(() => employeeStore.employeeDetails)
+
 const formValues = ref({
   email: '',
   firstname: '',
   lastname: '',
-  role: '',
+  role: [{}],
   project: '',
   isadmin: false,
 })
 
-const selectedRole = ref()
 const roles = computed(() => {
-  const allRoles = rolesStore.allRoles
+  const employeeRoles = computed(() => employeeStore.allEmployeeRoles)
   return [
     {
       name: 'Create New Role',
       isCreateNew: true,
     },
-    ...allRoles,
+    ...employeeRoles.value,
   ]
 })
 
@@ -188,7 +187,7 @@ watch(employeeDetails, () => {
       email: employeeDetails.value.email,
       firstname: employeeDetails.value.firstName,
       lastname: employeeDetails.value.lastName,
-      role: '',
+      role: [{}],
       project: '',
       isadmin: false,
     }
