@@ -25,9 +25,9 @@ export const useEmployeesStore = defineStore('employees', () => {
     }
   }
 
-  async function fetchEmployeeProjects(employee: Employee) {
+  async function fetchEmployeeProjects(employeeId: Number) {
     try {
-      const response = await fetch(`${backendUrl}/${employee.id}/projects/`)
+      const response = await fetch(`${backendUrl}/${employeeId}/projects/`)
       const data = await response.json()
       allEmployeeProjects.value = data
     } catch (error) {
@@ -35,9 +35,9 @@ export const useEmployeesStore = defineStore('employees', () => {
     }
   }
 
-  async function fetchEmployeeRoles(employee: Employee) {
+  async function fetchEmployeeRoles(employeeId: Number) {
     try {
-      const response = await fetch(`${backendUrl}/${employee.id}/roles/`)
+      const response = await fetch(`${backendUrl}/${employeeId}/roles/`)
       const data = await response.json()
       allEmployeeRoles.value = data
     } catch (error) {
@@ -144,7 +144,7 @@ export const useEmployeesStore = defineStore('employees', () => {
         summary: `${employee.email} removed from project ${project.name}!`,
         life: 3000,
       })
-      fetchEmployeeProjects(employee)
+      fetchEmployeeProjects(Number(employee.id))
     } catch (error) {
       console.error(error)
       toast.add({
@@ -168,7 +168,7 @@ export const useEmployeesStore = defineStore('employees', () => {
         summary: `${role.name} removed from ${employee.email}!`,
         life: 3000,
       })
-      fetchEmployeeRoles(employee)
+      fetchEmployeeRoles(Number(employee.id))
     } catch (error) {
       console.error(error)
       toast.add({
