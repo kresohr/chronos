@@ -57,6 +57,7 @@
                 ]"
               >
                 {{ slotProps.option.name }}
+                <!-- TODO: Implement removal of role from employee -->
                 <button
                   v-if="!slotProps.option.isCreateNew"
                   class="manage-employee__icon-button"
@@ -90,6 +91,7 @@
                 ]"
               >
                 {{ slotProps.option.name }}
+                <!-- TODO: Implement removal of project from employee -->
                 <button
                   v-if="!slotProps.option.isCreateNew"
                   class="manage-employee__icon-button"
