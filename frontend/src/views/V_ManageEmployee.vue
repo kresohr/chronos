@@ -45,13 +45,25 @@
             v-model="formValues.role"
             :options="roles"
             optionLabel="name"
-            placeholder="Select a Role"
+            placeholder="Assigned Roles"
             :filter="true"
             filterPlaceholder="Search available roles"
           >
             <template #option="slotProps">
-              <span :class="{ 'create-new-item': slotProps.option.isCreateNew }">
+              <span
+                :class="[
+                  { 'create-new-item': slotProps.option.isCreateNew },
+                  { 'manage-employee__dropdown-row': !slotProps.option.isCreateNew },
+                ]"
+              >
                 {{ slotProps.option.name }}
+                <button
+                  v-if="!slotProps.option.isCreateNew"
+                  class="manage-employee__icon-button"
+                  @click="console.log('Remove role from Employee')"
+                >
+                  <fa-icon :icon="['fas', 'xmark']" style="height: 20px; width: 20px" />
+                </button>
               </span>
             </template>
           </Dropdown>
@@ -66,7 +78,7 @@
             v-model="selectedProject"
             :options="projects"
             optionLabel="name"
-            placeholder="Assign to project"
+            placeholder="Assigned Projects"
             :filter="true"
             filterPlaceholder="Search available projects"
           >
@@ -85,7 +97,7 @@
           <label for="isadmin">Admin privileges</label>
           <Checkbox inputId="isadmin" v-model="createAdminChecked" binary />
         </FormField>
-        <Button type="submit" label="Submit" />
+        <Button type="submit" label="Save" />
       </Form>
     </div>
   </section>
@@ -140,7 +152,7 @@ const roles = computed(() => {
   const employeeRoles = computed(() => employeeStore.allEmployeeRoles)
   return [
     {
-      name: 'Create New Role',
+      name: 'Assign New Role',
       isCreateNew: true,
     },
     ...employeeRoles.value,
@@ -152,7 +164,7 @@ const projects = computed(() => {
   const allProjects = projectsStore.allProjects
   return [
     {
-      name: 'Create New Project',
+      name: 'Assign New Project',
       isCreateNew: true,
     },
     ...allProjects,
@@ -204,6 +216,17 @@ watch(employeeDetails, () => {
   align-items: center;
   margin-inline: auto;
   gap: var(--spacing-small);
+
+  &__icon-button {
+    background: none;
+    border: none;
+  }
+  &__dropdown-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-inline: 20px;
+  }
 }
 
 .form-container {
