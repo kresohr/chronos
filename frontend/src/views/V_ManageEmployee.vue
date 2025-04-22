@@ -83,8 +83,20 @@
             filterPlaceholder="Search available projects"
           >
             <template #option="slotProps">
-              <span :class="{ 'create-new-item': slotProps.option.isCreateNew }">
+              <span
+                :class="[
+                  { 'create-new-item': slotProps.option.isCreateNew },
+                  { 'manage-employee__dropdown-row': !slotProps.option.isCreateNew },
+                ]"
+              >
                 {{ slotProps.option.name }}
+                <button
+                  v-if="!slotProps.option.isCreateNew"
+                  class="manage-employee__icon-button"
+                  @click="console.log('Remove project from Employee')"
+                >
+                  <fa-icon :icon="['fas', 'xmark']" style="height: 20px; width: 20px" />
+                </button>
               </span>
             </template>
           </Dropdown>
