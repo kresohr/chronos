@@ -169,15 +169,19 @@ const updateWidth = () => {
 const handleRoleViewClick = (user: Employee) => {
   selectedUser.value = user
   isDialogVisible.value = !isDialogVisible.value
-  employeeStore.fetchEmployeeRoles(user)
-  isRoleDialog.value = true
+  if (user && user.id) {
+    employeeStore.fetchEmployeeRoles(user.id)
+    isRoleDialog.value = true
+  }
 }
 
 const handleProjectViewClick = (user: Employee) => {
   selectedUser.value = user
   isDialogVisible.value = !isDialogVisible.value
-  employeeStore.fetchEmployeeProjects(user)
-  isRoleDialog.value = false
+  if (user && user.id) {
+    employeeStore.fetchEmployeeProjects(user.id)
+    isRoleDialog.value = false
+  }
 }
 
 const handleRemoveProject = (selectedProject: Project) => {
@@ -193,7 +197,7 @@ const handleRemoveRole = (selectedRole: Role) => {
 }
 
 const handleEditEmployeeClick = (user: Employee) => {
-  router.push(`employees/manage/${user.id}`)
+  router.push(`/employees/manage/${user.id}`)
 }
 
 watch(isDialogVisible, () => {
