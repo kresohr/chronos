@@ -38,7 +38,6 @@
           </Message>
         </FormField>
 
-        <!-- TODO: Prefetch roles and projects for user -->
         <!-- Add conditional render if role is enabled as a module -->
         <FormField v-if="true" v-slot="$field" name="role" class="form-field">
           <Dropdown
