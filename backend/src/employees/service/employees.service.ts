@@ -11,6 +11,8 @@ import { DeleteEmployeeProjectDto } from 'src/employees/dtos/DeleteEmployeeProje
 import { FetchEmployeeDetailsDto } from '../dtos/FetchEmployeeDetails.dto';
 import { FetchEmployeeRolesDto } from '../dtos/FetchEmployeeRoles.dto';
 import { DeleteEmployeeRoleDto } from '../dtos/DeleteEmployeeRole.dto';
+import { ModifyEmployeeDto } from '../dtos/ModifyEmployee.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class EmployeesService {
@@ -173,5 +175,72 @@ export class EmployeesService {
       }
       throw error;
     }
+  }
+
+  // TODO: Double-check syntax and logic to ensure this is what we want.
+  async modifyEmployee(id: number, data: ModifyEmployeeDto) {
+    const employee = this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!employee) {
+      throw new NotFoundException(`Employee with ID: ${id} not found!`);
+    }
+
+    const employeeUpdateData: Prisma.UserUpdateInput = {};
+
+    if (data.email !== undefined) {
+      employeeUpdateData.email = data.email;
+    }
+
+    if (data.firstName !== undefined) {
+      employeeUpdateData.firstName = data.firstName;
+    }
+
+    if (data.lastName !== undefined) {
+      employeeUpdateData.lastName = data.lastName;
+    }
+
+    if (data.isAdmin !== undefined) {
+      employeeUpdateData.isAdmin = data.isAdmin;
+    }
+
+    if (data.roleIds !== undefined) {
+      employeeUpdateData.roles = {
+        deleteMany: {},
+        create: data.roleIds.map((roleId) => ({
+          role: {
+            connect: {
+              id: roleId,
+            },
+          },
+        })),
+      };
+    }
+
+    if (data.projectIds !== undefined) {
+      employeeUpdateData.projects = {
+        deleteMany: {},
+        create: data.projectIds.map((projectId) => ({
+          project: {
+            connect: {
+              id: projectId,
+            },
+          },
+        })),
+      };
+    }
+
+    return this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: employeeUpdateData,
+      include: {
+        roles: { include: { role: true } },
+        projects: { include: { project: true } },
+      },
+    });
   }
 }
