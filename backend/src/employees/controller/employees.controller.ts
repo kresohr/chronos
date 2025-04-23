@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   UsePipes,
   ValidationPipe,
@@ -17,6 +18,7 @@ import { EmployeesService } from 'src/employees/service/employees.service';
 import { FetchEmployeeDetailsDto } from '../dtos/FetchEmployeeDetails.dto';
 import { FetchEmployeeRolesDto } from '../dtos/FetchEmployeeRoles.dto';
 import { DeleteEmployeeRoleDto } from '../dtos/DeleteEmployeeRole.dto';
+import { ModifyEmployeeDto } from '../dtos/ModifyEmployee.dto';
 
 @Controller('employees')
 export class EmployeesController {
@@ -51,6 +53,15 @@ export class EmployeesController {
   @UsePipes(new ValidationPipe())
   createEmployee(@Body() employeeData: CreateEmployeeDto) {
     return this.employeesService.createEmployee(employeeData);
+  }
+
+  @Patch(':id')
+  @UsePipes(new ValidationPipe())
+  modifyEmployee(
+    @Param('id', ParseIntPipe) userId: number,
+    @Body() employeeData: ModifyEmployeeDto,
+  ) {
+    return this.employeesService.modifyEmployee(userId, employeeData);
   }
 
   @Delete(':id')

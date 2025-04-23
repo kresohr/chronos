@@ -179,6 +179,25 @@ export const useEmployeesStore = defineStore('employees', () => {
     }
   }
 
+  // TODO: Handle optional arguments
+  async function modifyEmployee(employee: Employee) {
+    try {
+      const response = await fetch(`${backendUrl}/${employee.id}`, {
+        method: 'PATCH',
+      })
+      if (!response.ok) {
+        throw new Error(`Failed to update employee: ${response.statusText}`)
+      }
+      toast.add({
+        severity: 'success',
+        summary: `Employee modified successfully!`,
+        life: 3000,
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return {
     employeeDetails,
     allEmployees,
@@ -192,5 +211,6 @@ export const useEmployeesStore = defineStore('employees', () => {
     deleteProjectFromEmployee,
     deleteEmployee,
     deleteRoleFromEmployee,
+    modifyEmployee,
   }
 })
