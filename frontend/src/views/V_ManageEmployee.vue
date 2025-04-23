@@ -234,6 +234,11 @@ watch(employeeDetails, () => {
   &__icon-button {
     background: none;
     border: none;
+    cursor: pointer;
+    :hover {
+      transition: color 0.2s;
+      color: var(--primary-button-color);
+    }
   }
   &__dropdown-row {
     width: 100%;
