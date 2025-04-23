@@ -57,11 +57,10 @@
                 ]"
               >
                 {{ slotProps.option.name }}
-                <!-- TODO: Implement removal of role from employee -->
                 <button
                   v-if="!slotProps.option.isCreateNew"
                   class="manage-employee__icon-button"
-                  @click="console.log('Remove role from Employee')"
+                  @click="handleRemoveRole(slotProps.option)"
                 >
                   <fa-icon :icon="['fas', 'xmark']" style="height: 20px; width: 20px" />
                 </button>
@@ -91,11 +90,10 @@
                 ]"
               >
                 {{ slotProps.option.name }}
-                <!-- TODO: Implement removal of project from employee -->
                 <button
                   v-if="!slotProps.option.isCreateNew"
                   class="manage-employee__icon-button"
-                  @click="console.log('Remove project from Employee')"
+                  @click="handleRemoveProject(slotProps.option)"
                 >
                   <fa-icon :icon="['fas', 'xmark']" style="height: 20px; width: 20px" />
                 </button>
@@ -118,20 +116,20 @@
 </template>
 
 <script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+import router from '@/router'
 import { Form, FormField } from '@primevue/forms'
+import { zodResolver } from '@primevue/forms/resolvers/zod'
 import Dropdown from 'primevue/dropdown'
 import Checkbox from 'primevue/checkbox'
-import { computed, ref, watch } from 'vue'
 import { Button, InputText, Message } from 'primevue'
-import { z } from 'zod'
-import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { useToast } from 'primevue/usetoast'
+import { z } from 'zod'
+import type { Role } from '@/types/RoleType'
+import type { Project } from '@/types/ProjectType'
 import { useEmployeesStore } from '@/stores/employees'
-import router from '@/router'
-import { useProjectsStore } from '@/stores/projects'
 
 const employeeStore = useEmployeesStore()
-const projectsStore = useProjectsStore()
 const toast = useToast()
 const zodSchema = z.object({
   email: z.string().email('Invalid email'),
@@ -147,10 +145,11 @@ const zodSchema = z.object({
 })
 
 const zodFormResolver = zodResolver(zodSchema)
-
 const employeeIdFromParams = router.currentRoute.value.params.id
 employeeStore.fetchEmployeeDetails(Number(employeeIdFromParams))
 employeeStore.fetchEmployeeRoles(Number(employeeIdFromParams))
+employeeStore.fetchEmployeeProjects(Number(employeeIdFromParams))
+
 const employeeDetails = computed(() => employeeStore.employeeDetails)
 
 const formValues = ref({
@@ -175,13 +174,13 @@ const roles = computed(() => {
 
 const selectedProject = ref()
 const projects = computed(() => {
-  const allProjects = projectsStore.allProjects
+  const employeeProjects = employeeStore.allEmployeeProjects
   return [
     {
       name: 'Assign New Project',
       isCreateNew: true,
     },
-    ...allProjects,
+    ...employeeProjects,
   ]
 })
 
@@ -205,6 +204,18 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any })
     Number(values.project?.id) ?? null,
     values.isadmin,
   )
+}
+
+const handleRemoveProject = (selectedProject: Project) => {
+  if (employeeDetails.value) {
+    employeeStore.deleteProjectFromEmployee(employeeDetails.value, selectedProject)
+  }
+}
+
+const handleRemoveRole = (selectedRole: Role) => {
+  if (employeeDetails.value) {
+    employeeStore.deleteRoleFromEmployee(employeeDetails.value, selectedRole)
+  }
 }
 
 watch(employeeDetails, () => {
