@@ -181,9 +181,28 @@ export const useEmployeesStore = defineStore('employees', () => {
 
   // TODO: Handle optional arguments
   async function modifyEmployee(employee: Employee) {
+    const employeeData: Record<string, any> = {}
+    if (employee.createdAt !== undefined) {
+      employeeData.createdAt = employee.createdAt
+    }
+    if (employee.email !== undefined) {
+      employeeData.email = employee.email
+    }
+    if (employee.firstName !== undefined) {
+      employeeData.firstName = employee.firstName
+    }
+    if (employee.lastName !== undefined) {
+      employeeData.lastName = employee.lastName
+    }
+    if (employee.isAdmin !== undefined) {
+      employeeData.isAdmin = employee.isAdmin
+    }
+
     try {
+      console.log('STRINGIFY: ', JSON.stringify(employeeData))
       const response = await fetch(`${backendUrl}/${employee.id}`, {
         method: 'PATCH',
+        body: JSON.stringify(employeeData),
       })
       if (!response.ok) {
         throw new Error(`Failed to update employee: ${response.statusText}`)
