@@ -13,6 +13,7 @@ import { FetchEmployeeRolesDto } from '../dtos/FetchEmployeeRoles.dto';
 import { DeleteEmployeeRoleDto } from '../dtos/DeleteEmployeeRole.dto';
 import { ModifyEmployeeDto } from '../dtos/ModifyEmployee.dto';
 import { Prisma } from '@prisma/client';
+import { AssignRoleToEmployeeDto } from '../dtos/AssignRoleToEmployee.dto';
 
 @Injectable()
 export class EmployeesService {
@@ -242,5 +243,36 @@ export class EmployeesService {
         projects: { include: { project: true } },
       },
     });
+  }
+
+  async addRoleToEmployee(data: AssignRoleToEmployeeDto) {
+    try {
+      const existingRole = await this.prisma.userRole.findUnique({
+        where: {
+          userId_roleId: {
+            userId: data.userId,
+            roleId: data.roleId,
+          },
+        },
+      });
+
+      if (existingRole) {
+        throw new ConflictException(`Role already assigned to this user.`);
+      }
+
+      const newUserRole = await this.prisma.userRole.create({
+        data: {
+          userId: data.userId,
+          roleId: data.roleId,
+        },
+      });
+
+      return newUserRole;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`User or Role does not exist.`);
+      }
+      throw error;
+    }
   }
 }
