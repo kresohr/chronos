@@ -19,6 +19,7 @@ import { FetchEmployeeDetailsDto } from '../dtos/FetchEmployeeDetails.dto';
 import { FetchEmployeeRolesDto } from '../dtos/FetchEmployeeRoles.dto';
 import { DeleteEmployeeRoleDto } from '../dtos/DeleteEmployeeRole.dto';
 import { ModifyEmployeeDto } from '../dtos/ModifyEmployee.dto';
+import { AssignRoleToEmployeeDto } from '../dtos/AssignRoleToEmployee.dto';
 
 @Controller('employees')
 export class EmployeesController {
@@ -53,6 +54,16 @@ export class EmployeesController {
   @UsePipes(new ValidationPipe())
   createEmployee(@Body() employeeData: CreateEmployeeDto) {
     return this.employeesService.createEmployee(employeeData);
+  }
+
+  @Post(':userid/roles/add')
+  @UsePipes(new ValidationPipe())
+  assignRole(
+    @Param('userid', ParseIntPipe) userId: number,
+    @Body() employeeData: AssignRoleToEmployeeDto,
+  ) {
+    employeeData.userId = userId;
+    return this.employeesService.addRoleToEmployee(employeeData);
   }
 
   @Patch(':id')
