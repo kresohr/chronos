@@ -5,38 +5,44 @@
 
   <section>
     <div class="manage-employee">
-      <!-- TODO: Check how to update PrimeVue Form component fields after employeeDetails is fetched. -->
       <Form
         v-if="employeeDetails"
-        :initialValues="formValues"
+        :initialValues="initialValues"
         :resolver="zodFormResolver"
         @submit="onFormSubmit"
         class="form-container"
       >
-        <FormField v-slot="$field" name="email" class="form-field">
-          <InputText type="text" placeholder="E-mail address" />
+        <FormField v-slot="$field" class="form-field">
+          <InputText type="text" placeholder="E-mail address" name="email" />
           <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
             {{ $field.error?.message }}
           </Message>
         </FormField>
 
-        <FormField v-slot="$field" name="firstname" class="form-field">
-          <InputText type="text" placeholder="First Name" />
+        <FormField v-slot="$field" class="form-field">
+          <InputText type="text" placeholder="First Name" name="firstname" />
           <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
             {{ $field.error?.message }}
           </Message>
         </FormField>
 
-        <FormField v-slot="$field" name="lastname" class="form-field">
-          <InputText type="text" placeholder="Last Name" class="form-field__input-text" />
+        <FormField v-slot="$field" class="form-field">
+          <InputText
+            name="lastname"
+            type="text"
+            placeholder="Last Name"
+            class="form-field__input-text"
+          />
           <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
             {{ $field.error?.message }}
           </Message>
         </FormField>
 
         <!-- Add conditional render if role is enabled as a module -->
-        <FormField v-if="true" v-slot="$field" name="role" class="form-field">
+        <!-- TODO: Loop through all roles and add them on formSubmit -->
+        <FormField v-if="true" v-slot="$field" class="form-field">
           <Dropdown
+            name="role"
             :options="roles"
             optionLabel="name"
             placeholder="Assigned Roles"
@@ -67,8 +73,10 @@
         </FormField>
 
         <!-- Add conditional render if project is enabled as a module -->
-        <FormField v-if="true" v-slot="$field" name="project" class="form-field">
+        <!-- TODO: Loop through all projects and add them on formSubmit -->
+        <FormField v-if="true" v-slot="$field" class="form-field">
           <Dropdown
+            name="project"
             :options="projects"
             optionLabel="name"
             placeholder="Assigned Projects"
@@ -155,7 +163,7 @@ employeeStore.fetchEmployeeProjects(Number(employeeIdFromParams))
 
 const employeeDetails = computed(() => employeeStore.employeeDetails)
 
-const formValues = ref({
+const initialValues = ref({
   email: '',
   firstname: '',
   lastname: '',
@@ -189,17 +197,16 @@ const projects = computed(() => {
 const createAdminChecked = ref(false)
 
 const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any }) => {
-  console.log('Valid: ', valid, ' Values: ', values)
-  if (!valid || !values) {
-    toast.add({
-      severity: 'error',
-      summary: 'Form validation failed.',
-      life: 3000,
+  if (valid && values) {
+    toast.add({ severity: 'success', summary: 'Form is submitted.', life: 3000 })
+    await employeeStore.modifyEmployee({
+      firstName: values.firstname,
+      lastName: values.lastname,
+      email: values.email,
+      isAdmin: values.isadmin,
+      id: employeeDetails.value?.id,
     })
-    return
-  }
-
-  await employeeStore.modifyEmployee(values)
+  } else toast.add({ severity: 'error', summary: 'Error: Double-check all fields', life: 3000 })
 }
 
 const handleRemoveProject = (selectedProject: Project) => {
@@ -214,15 +221,15 @@ const handleRemoveRole = (selectedRole: Role) => {
   }
 }
 
-watch(employeeDetails, () => {
-  if (employeeDetails.value) {
-    formValues.value = {
-      email: employeeDetails.value.email,
-      firstname: employeeDetails.value.firstName,
-      lastname: employeeDetails.value.lastName,
-      role: [{}],
-      project: [{}],
-      isadmin: false,
+watch(employeeDetails, (newEmployeeDetails) => {
+  if (newEmployeeDetails) {
+    initialValues.value = {
+      email: newEmployeeDetails.email || '',
+      firstname: newEmployeeDetails.firstName || '',
+      lastname: newEmployeeDetails.lastName || '',
+      role: [],
+      project: [],
+      isadmin: newEmployeeDetails.isAdmin || false,
     }
   }
 })
