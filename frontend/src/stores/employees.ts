@@ -199,9 +199,11 @@ export const useEmployeesStore = defineStore('employees', () => {
     }
 
     try {
-      console.log('STRINGIFY: ', JSON.stringify(employeeData))
-      const response = await fetch(`${backendUrl}/${employee.id}`, {
+      const response = await fetch(`${backendUrl}/${Number(employee.id)}`, {
         method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(employeeData),
       })
       if (!response.ok) {
@@ -212,6 +214,7 @@ export const useEmployeesStore = defineStore('employees', () => {
         summary: `Employee modified successfully!`,
         life: 3000,
       })
+      fetchEmployeeDetails(Number(employee.id))
     } catch (error) {
       console.error(error)
     }
