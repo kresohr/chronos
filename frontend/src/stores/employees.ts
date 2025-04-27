@@ -220,6 +220,33 @@ export const useEmployeesStore = defineStore('employees', () => {
     }
   }
 
+  async function modifyEmployeeRoles(employeeId: number, roleIds: Array<number>) {
+    const bodyDto = {
+      roleIds,
+    }
+    try {
+      const response = await fetch(`${backendUrl}/${Number(employeeId)}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bodyDto),
+      })
+      if (!response.ok) {
+        throw new Error(`Failed to update roles for employee: ${response.statusText}`)
+      }
+      toast.add({
+        severity: 'success',
+        summary: `Roles modified successfully!`,
+        life: 3000,
+      })
+      fetchEmployeeDetails(Number(employeeId))
+      fetchEmployeeRoles(Number(employeeId))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return {
     employeeDetails,
     allEmployees,
@@ -234,5 +261,6 @@ export const useEmployeesStore = defineStore('employees', () => {
     deleteEmployee,
     deleteRoleFromEmployee,
     modifyEmployee,
+    modifyEmployeeRoles,
   }
 })
