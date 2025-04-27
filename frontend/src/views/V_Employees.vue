@@ -98,7 +98,6 @@
           header="Role"
           style="margin-inline: auto"
           :hidden="windowWidth < 600"
-          sortable
           ><template #body="{ data }">
             <Button
               class="employees__view-button"
