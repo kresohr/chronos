@@ -117,7 +117,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import router from '@/router'
 import { Form, FormField } from '@primevue/forms'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
@@ -157,7 +157,9 @@ const zodSchema = z.object({
 
 const zodFormResolver = zodResolver(zodSchema)
 const employeeIdFromParams = router.currentRoute.value.params.id
-employeeStore.fetchEmployeeDetails(Number(employeeIdFromParams))
+onMounted(() => {
+  employeeStore.fetchEmployeeDetails(Number(employeeIdFromParams))
+})
 employeeStore.fetchEmployeeRoles(Number(employeeIdFromParams))
 employeeStore.fetchEmployeeProjects(Number(employeeIdFromParams))
 
