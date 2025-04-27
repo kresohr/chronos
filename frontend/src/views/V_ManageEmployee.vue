@@ -52,7 +52,7 @@
             <template #option="slotProps">
               <span
                 :class="[
-                  { 'create-new-item': slotProps.option.isCreateNew },
+                  { 'create-new': slotProps.option.isCreateNew },
                   { 'manage-employee__dropdown-row': !slotProps.option.isCreateNew },
                 ]"
               >
@@ -86,7 +86,7 @@
             <template #option="slotProps">
               <span
                 :class="[
-                  { 'create-new-item': slotProps.option.isCreateNew },
+                  { 'create-new': slotProps.option.isCreateNew },
                   { 'manage-employee__dropdown-row': !slotProps.option.isCreateNew },
                 ]"
               >
@@ -281,7 +281,7 @@ watch(employeeDetails, (newEmployeeDetails) => {
   }
 }
 
-.create-new-item {
+.create-new {
   background-color: var(--p-button-primary-background);
   margin-inline: auto;
   color: var(--p-button-primary-color);
