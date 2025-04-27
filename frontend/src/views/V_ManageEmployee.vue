@@ -174,6 +174,7 @@ const initialValues = ref({
   isadmin: false,
 })
 
+/* TODO: Make the button "ASSIGN NEW..." not selectable */
 const roles = computed(() => {
   const employeeRoles = computed(() => employeeStore.allEmployeeRoles)
   return [
