@@ -1,0 +1,101 @@
+<template>
+  <!-- TODO: Guard route if user is not admin -->
+  <!-- TODO: Add spinner loader until everything is ready -->
+  <h1>Manage Employee Roles</h1>
+  <p>Assign or remove roles for {{ employeeDetails?.email }}</p>
+
+  <div class="section--wrapper">
+    <h2>Assign New Role</h2>
+    <Dropdown
+      name="role"
+      :options="availableRoles"
+      optionLabel="name"
+      placeholder="Select a role"
+      :filter="true"
+      filterPlaceholder="Search by name"
+      class="section--wrapper__dropdown"
+      empty-message="No roles available"
+      empty-filter-message="No roles found with given name"
+      v-model="selectedRole"
+    >
+      <template #option="slotProps">
+        {{ slotProps.option.name }}
+      </template>
+    </Dropdown>
+
+    <Button :disabled="!selectedRole" label="Assign" @click="handleRoleAssign()" />
+  </div>
+
+  <div class="section--wrapper">
+    <h2>Assigned Roles</h2>
+    <Listbox
+      class="section--wrapper__listbox"
+      :options="employeeAssignedRoles"
+      filter
+      filter-placeholder="Search by name"
+      optionLabel="name"
+      empty-message="No roles assigned"
+      empty-filter-message="No roles found with given name"
+    />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { useEmployeesStore } from '@/stores/employees'
+import router from '@/router'
+import { Button } from 'primevue'
+import Dropdown from 'primevue/dropdown'
+import Listbox from 'primevue/listbox'
+import { useRolesStore } from '@/stores/roles'
+
+const employeeStore = useEmployeesStore()
+const employeeDetails = computed(() => employeeStore.employeeDetails)
+const employeeIdFromParams = router.currentRoute.value.params.id
+const employeeAssignedRoles = computed(() => employeeStore.allEmployeeRoles)
+const rolesStore = useRolesStore()
+const availableRoles = computed(() => {
+  if (employeeAssignedRoles.value) {
+    const assignedRoleNames = employeeAssignedRoles.value.map((role) => role.name)
+    return rolesStore.allRoles.filter((role) => !assignedRoleNames.includes(role.name))
+  } else {
+    return []
+  }
+})
+const selectedRole = ref()
+
+employeeStore.fetchEmployeeDetails(Number(employeeIdFromParams))
+employeeStore.fetchEmployeeRoles(Number(employeeIdFromParams))
+rolesStore.fetchAllRoles()
+
+const handleRoleAssign = () => {
+  const oldRolesIds = employeeAssignedRoles.value.map((role) => role.id)
+  const newRoleId = selectedRole.value.id
+  const combinedRolesIds = [...oldRolesIds, newRoleId]
+  employeeStore.modifyEmployeeRoles(Number(employeeIdFromParams), combinedRolesIds)
+}
+</script>
+
+<style lang="scss" scoped>
+.section {
+  &--wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-small);
+    margin-top: var(--spacing-medium);
+    margin-inline: auto;
+    width: 100%;
+    max-width: 320px;
+
+    Button {
+      margin-left: auto;
+    }
+
+    &__dropdown,
+    &__listbox {
+      width: 100%;
+    }
+  }
+}
+</style>
