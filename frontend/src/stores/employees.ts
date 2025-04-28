@@ -262,5 +262,6 @@ export const useEmployeesStore = defineStore('employees', () => {
     deleteRoleFromEmployee,
     modifyEmployee,
     modifyEmployeeRoles,
+    isFetchingEmployeeDetails,
   }
 })
