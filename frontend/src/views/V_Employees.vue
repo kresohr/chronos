@@ -59,10 +59,16 @@
       }}
     </p>
     <div class="employees__dialog__button--wrapper">
-      <!-- TODO: Modify route when new view is added -->
-      <router-link to="/projects/new" style="margin-left: auto">
+      <router-link
+        :to="
+          isRoleDialog
+            ? `employees/manage/${selectedUser?.id}/roles`
+            : `employees/manage/${selectedUser?.id}/projects`
+        "
+        style="margin-left: auto"
+      >
         <!-- TODO: Conditionally render if the person is admin -->
-        <Button v-if="true" label="Assign Project" />
+        <Button v-if="true" :label="isRoleDialog ? 'Assign Role' : 'Assign Project'" />
       </router-link>
     </div>
   </Dialog>
