@@ -39,9 +39,9 @@
         </FormField>
 
         <!-- Add conditional render if role is enabled as a module -->
-        <!-- TODO: Loop through all roles and add them on formSubmit -->
         <FormField v-if="true" v-slot="$field" class="form-field">
           <Dropdown
+            v-model="selectedRole"
             name="role"
             :options="roles"
             optionLabel="name"
@@ -52,15 +52,15 @@
             <template #option="slotProps">
               <span
                 :class="[
-                  { 'create-new': slotProps.option.isCreateNew },
-                  { 'manage-employee__dropdown-row': !slotProps.option.isCreateNew },
+                  { 'assign-new': slotProps.option.isButton },
+                  { 'manage-employee__dropdown-row': !slotProps.option.isButton },
                 ]"
               >
                 {{ slotProps.option.name }}
                 <button
-                  v-if="!slotProps.option.isCreateNew"
+                  v-if="!slotProps.option.isButton"
                   class="manage-employee__icon-button"
-                  @click="handleRemoveRole(slotProps.option)"
+                  @click.stop="handleRemoveRole(slotProps.option)"
                 >
                   <fa-icon :icon="['fas', 'xmark']" style="height: 20px; width: 20px" />
                 </button>
@@ -73,9 +73,9 @@
         </FormField>
 
         <!-- Add conditional render if project is enabled as a module -->
-        <!-- TODO: Loop through all projects and add them on formSubmit -->
         <FormField v-if="true" v-slot="$field" class="form-field">
           <Dropdown
+            v-model="selectedProject"
             name="project"
             :options="projects"
             optionLabel="name"
@@ -86,15 +86,15 @@
             <template #option="slotProps">
               <span
                 :class="[
-                  { 'create-new': slotProps.option.isCreateNew },
-                  { 'manage-employee__dropdown-row': !slotProps.option.isCreateNew },
+                  { 'assign-new': slotProps.option.isButton },
+                  { 'manage-employee__dropdown-row': !slotProps.option.isButton },
                 ]"
               >
                 {{ slotProps.option.name }}
                 <button
-                  v-if="!slotProps.option.isCreateNew"
+                  v-if="!slotProps.option.isButton"
                   class="manage-employee__icon-button"
-                  @click="handleRemoveProject(slotProps.option)"
+                  @click.stop="handleRemoveProject(slotProps.option)"
                 >
                   <fa-icon :icon="['fas', 'xmark']" style="height: 20px; width: 20px" />
                 </button>
@@ -174,13 +174,12 @@ const initialValues = ref({
   isadmin: false,
 })
 
-/* TODO: Make the button "ASSIGN NEW..." not selectable */
 const roles = computed(() => {
   const employeeRoles = computed(() => employeeStore.allEmployeeRoles)
   return [
     {
       name: 'Assign New Role',
-      isCreateNew: true,
+      isButton: true,
     },
     ...employeeRoles.value,
   ]
@@ -191,13 +190,15 @@ const projects = computed(() => {
   return [
     {
       name: 'Assign New Project',
-      isCreateNew: true,
+      isButton: true,
     },
     ...employeeProjects,
   ]
 })
 
 const createAdminChecked = ref(false)
+const selectedRole = ref()
+const selectedProject = ref()
 
 const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any }) => {
   if (valid && values) {
@@ -212,15 +213,17 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any })
   } else toast.add({ severity: 'error', summary: 'Error: Double-check all fields', life: 3000 })
 }
 
-const handleRemoveProject = (selectedProject: Project) => {
+const handleRemoveProject = (project: Project) => {
   if (employeeDetails.value) {
-    employeeStore.deleteProjectFromEmployee(employeeDetails.value, selectedProject)
+    employeeStore.deleteProjectFromEmployee(employeeDetails.value, project)
+    selectedProject.value = null
   }
 }
 
-const handleRemoveRole = (selectedRole: Role) => {
+const handleRemoveRole = (role: Role) => {
   if (employeeDetails.value) {
-    employeeStore.deleteRoleFromEmployee(employeeDetails.value, selectedRole)
+    employeeStore.deleteRoleFromEmployee(employeeDetails.value, role)
+    selectedRole.value = null
   }
 }
 
@@ -234,6 +237,18 @@ watch(employeeDetails, (newEmployeeDetails) => {
       project: [],
       isadmin: newEmployeeDetails.isAdmin || false,
     }
+  }
+})
+
+watch(selectedRole, () => {
+  if (selectedRole.value?.isButton) {
+    router.push(`/employees/manage/${employeeIdFromParams}/roles`)
+  }
+})
+
+watch(selectedProject, () => {
+  if (selectedProject.value?.isButton) {
+    router.push(`/employees/manage/${employeeIdFromParams}/projects`)
   }
 })
 </script>
@@ -284,7 +299,7 @@ watch(employeeDetails, (newEmployeeDetails) => {
   }
 }
 
-.create-new {
+.assign-new {
   background-color: var(--p-button-primary-background);
   margin-inline: auto;
   color: var(--p-button-primary-color);
