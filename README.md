@@ -22,7 +22,6 @@ While working for different clients and companies I’ve noticed a strange patte
 - **Backend** - [NestJS](https://docs.nestjs.com/)
 - **Auth** - [Keycloak](https://www.keycloak.org/)
 - **DB** - [PostgreSQL](https://www.postgresql.org/) (Keycloak also uses its own instance of PostgreSQL through Docker)
-- **UI-UX** - [Quant-UX](https://github.com/KlausSchaefers/quant-ux) self hosted via docker for UI-UX mocking
 - **Docker** - [Docker](https://www.docker.com/) using Docker to containerize everything and to ease the process of running Chronos
 - **Icons** - [FontAwesome](https://docs.fontawesome.com/) using Font Awesome for icons across the project.
 
