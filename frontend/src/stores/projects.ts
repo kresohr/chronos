@@ -1,3 +1,4 @@
+import type { Employee } from '@/types/EmployeeType'
 import type { Project } from '@/types/ProjectType'
 import { defineStore } from 'pinia'
 import { useToast } from 'primevue'
@@ -9,6 +10,7 @@ export const useProjectsStore = defineStore('projects', () => {
   const allProjects = ref<Project[]>([])
   const singleProjectDetails = ref<Project>()
   const isFetchingProjectDetails = ref(false)
+  const employeesOnProject = ref<Employee[]>([])
 
   async function fetchAllProjects() {
     try {
@@ -104,7 +106,7 @@ export const useProjectsStore = defineStore('projects', () => {
       if (!response.ok) {
         throw new Error(`Unable to fetch projects details! ${response.statusText}`)
       }
-      singleProjectDetails.value = await response.json().then()
+      singleProjectDetails.value = await response.json()
     } catch (error: any) {
       console.error(error)
       toast.add({
@@ -150,6 +152,28 @@ export const useProjectsStore = defineStore('projects', () => {
     }
   }
 
+  async function fetchEmployeesOnProject(projectId: number) {
+    try {
+      isFetchingProjectDetails.value = true
+      const response = await fetch(`${backendUrl}/${projectId}/employees`)
+      if (!response.ok) {
+        throw new Error(`Unable to fetch project employees! ${response.statusText}`)
+      }
+      employeesOnProject.value = await response.json()
+      console.log('XXX: ', employeesOnProject.value)
+    } catch (error: any) {
+      console.error(error)
+      toast.add({
+        severity: 'error',
+        summary: 'Failed to fetch project employees.',
+        detail: error.message,
+        life: 3000,
+      })
+    } finally {
+      isFetchingProjectDetails.value = false
+    }
+  }
+
   return {
     allProjects,
     fetchAllProjects,
@@ -159,5 +183,7 @@ export const useProjectsStore = defineStore('projects', () => {
     fetchProjectDetails,
     singleProjectDetails,
     isFetchingProjectDetails,
+    fetchEmployeesOnProject,
+    employeesOnProject,
   }
 })
