@@ -26,7 +26,30 @@
       </Form>
     </div>
 
-    <!-- TODO: Implement a list of employees assigned to current project -->
+    <!-- TODO: Implement removal method -->
+    <div class="manage-project">
+      <h2>Employees on this project</h2>
+
+      <Listbox
+        class="manage-project__listbox"
+        :options="employeesOnProject"
+        filter
+        filter-placeholder="Search by name"
+        optionLabel="firstName"
+        empty-message="No employees assigned"
+        empty-filter-message="No employees found with given name"
+      >
+        <template #option="slotProps">
+          <div>{{ slotProps.option.firstName }}</div>
+          <button
+            class="manage-project__listbox__remove-button"
+            @click="console.log('To implement removal.')"
+          >
+            <fa-icon :icon="['fas', 'xmark']" style="height: 20px; width: 20px" />
+          </button>
+        </template>
+      </Listbox>
+    </div>
   </section>
 </template>
 
@@ -36,18 +59,20 @@ import { InputText, Button, Message } from 'primevue'
 import { z } from 'zod'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { useToast } from 'primevue/usetoast'
+import Listbox from 'primevue/listbox'
 import { useProjectsStore } from '@/stores/projects'
 import { useRouter } from 'vue-router'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import ProgressSpinner from 'primevue/progressspinner'
 
 const projectsStore = useProjectsStore()
 const toast = useToast()
 const router = useRouter()
-const projectIdFromParams = router.currentRoute.value.params.id
+const projectIdFromParams = Number(router.currentRoute.value.params.id)
 projectsStore.fetchProjectDetails(Number(projectIdFromParams))
 const isFetchingProjectDetails = computed(() => projectsStore.isFetchingProjectDetails)
 const projectDetails = computed(() => projectsStore.singleProjectDetails)
+const employeesOnProject = computed(() => projectsStore.employeesOnProject)
 
 const zodSchema = z.object({
   name: z
@@ -71,9 +96,12 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any })
     })
     return
   }
-  const projectIdFromParams = Number(router.currentRoute.value.params.id)
   await projectsStore.modifyProject(values.name, projectIdFromParams)
 }
+
+onMounted(() => {
+  projectsStore.fetchEmployeesOnProject(projectIdFromParams)
+})
 </script>
 
 <style scoped lang="scss">
@@ -85,6 +113,8 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any })
   align-items: center;
   margin-inline: auto;
   gap: var(--spacing-small);
+  width: 100%;
+  max-width: 320px;
 
   &__spinner {
     display: flex;
@@ -92,6 +122,24 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any })
     margin-inline: auto;
     height: 50px;
     width: 50px;
+  }
+
+  Button {
+    margin-left: auto;
+  }
+
+  &__listbox {
+    width: 100%;
+
+    &__remove-button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      :hover {
+        transition: color 0.2s;
+        color: var(--primary-button-color);
+      }
+    }
   }
 }
 
