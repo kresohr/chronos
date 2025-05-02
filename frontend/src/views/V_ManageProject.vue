@@ -25,6 +25,8 @@
         <Button type="submit" label="Save" />
       </Form>
     </div>
+
+    <!-- TODO: Implement a list of employees assigned to current project -->
   </section>
 </template>
 
