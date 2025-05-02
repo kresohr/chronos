@@ -179,7 +179,6 @@ export const useEmployeesStore = defineStore('employees', () => {
     }
   }
 
-  // TODO: Handle optional arguments
   async function modifyEmployee(employee: Employee) {
     const employeeData: Record<string, any> = {}
     if (employee.createdAt !== undefined) {
@@ -247,6 +246,10 @@ export const useEmployeesStore = defineStore('employees', () => {
     }
   }
 
+  async function modifyEmployeeProjects(employeeId: number, projectIds: Array<number>) {
+    console.log('Modification of projects will go here: ', employeeId, projectIds)
+  }
+
   return {
     employeeDetails,
     allEmployees,
@@ -262,6 +265,7 @@ export const useEmployeesStore = defineStore('employees', () => {
     deleteRoleFromEmployee,
     modifyEmployee,
     modifyEmployeeRoles,
+    modifyEmployeeProjects,
     isFetchingEmployeeDetails,
   }
 })
