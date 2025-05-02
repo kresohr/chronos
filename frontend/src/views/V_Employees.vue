@@ -75,6 +75,7 @@
   <h1>Employees</h1>
   <p>Full list of employees</p>
 
+  <!-- TODO: Reset fetched projects/roles state to prevent wrong data display on slow network -->
   <section>
     <div class="employees">
       <DataTable
