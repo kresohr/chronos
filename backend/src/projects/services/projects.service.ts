@@ -4,6 +4,7 @@ import { CreateProjectDto } from 'src/projects/dtos/CreateProject.dto';
 import { DeleteProjectDto } from 'src/projects/dtos/DeleteProject.dto';
 import { FetchProjectDetailsDto } from 'src/projects/dtos/FetchProjectDetails.dto';
 import { ModifyProjectDto } from 'src/projects/dtos/ModifyProject.dto';
+import { FetchProjectEmployeesDto } from '../dtos/FetchProjectEmployees.dto';
 
 @Injectable()
 export class ProjectsService {
@@ -58,6 +59,27 @@ export class ProjectsService {
       if (error.code === 'P2025') {
         throw new NotFoundException(
           `Project with id ${data.id} does not exist.`,
+        );
+      }
+      throw error;
+    }
+  }
+
+  async fetchProjectEmployees(data: FetchProjectEmployeesDto) {
+    try {
+      const users = await this.prisma.userProject.findMany({
+        where: {
+          projectId: data.projectId,
+        },
+        select: {
+          user: true,
+        },
+      });
+      return users.map((data) => data.user);
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(
+          `Project with id ${data.projectId} does not exist.`,
         );
       }
       throw error;
