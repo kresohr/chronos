@@ -247,7 +247,30 @@ export const useEmployeesStore = defineStore('employees', () => {
   }
 
   async function modifyEmployeeProjects(employeeId: number, projectIds: Array<number>) {
-    console.log('Modification of projects will go here: ', employeeId, projectIds)
+    const bodyDto = {
+      projectIds,
+    }
+    try {
+      const response = await fetch(`${backendUrl}/${Number(employeeId)}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bodyDto),
+      })
+      if (!response.ok) {
+        throw new Error(`Failed to update projects for employee: ${response.statusText}`)
+      }
+      toast.add({
+        severity: 'success',
+        summary: `Projects modified successfully!`,
+        life: 3000,
+      })
+      fetchEmployeeDetails(Number(employeeId))
+      fetchEmployeeProjects(Number(employeeId))
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return {
