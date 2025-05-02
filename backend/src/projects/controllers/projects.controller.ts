@@ -15,6 +15,7 @@ import { DeleteProjectDto } from 'src/projects/dtos/DeleteProject.dto';
 import { FetchProjectDetailsDto } from 'src/projects/dtos/FetchProjectDetails.dto';
 import { ModifyProjectDto } from 'src/projects/dtos/ModifyProject.dto';
 import { ProjectsService } from 'src/projects/services/projects.service';
+import { FetchProjectEmployeesDto } from '../dtos/FetchProjectEmployees.dto';
 
 @Controller('projects')
 export class ProjectsController {
@@ -23,6 +24,13 @@ export class ProjectsController {
   @Get()
   getProjects() {
     return this.projectsService.fetchProjects();
+  }
+
+  @Get(':id/employees')
+  @UsePipes(new ValidationPipe())
+  getProjectEmployees(@Param('id', ParseIntPipe) projectId: number) {
+    const dto: FetchProjectEmployeesDto = { projectId };
+    return this.projectsService.fetchProjectEmployees(dto);
   }
 
   @Get(':id')
@@ -48,8 +56,9 @@ export class ProjectsController {
   @UsePipes(new ValidationPipe())
   updateProject(
     @Param('id', ParseIntPipe) id: number,
-    @Body() dto: { name: string },
+    @Body() data: { name: string },
   ) {
-    return this.projectsService.modifyProject({ id, ...dto });
+    const dto: ModifyProjectDto = { id, name: data.name };
+    return this.projectsService.modifyProject(dto);
   }
 }
