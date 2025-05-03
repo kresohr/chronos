@@ -227,6 +227,17 @@ const handleRemoveRole = (role: Role) => {
   }
 }
 
+if (employeeDetails.value) {
+  initialValues.value = {
+    email: employeeDetails.value.email || '',
+    firstname: employeeDetails.value.firstName || '',
+    lastname: employeeDetails.value.lastName || '',
+    role: [],
+    project: [],
+    isadmin: employeeDetails.value.isAdmin || false,
+  }
+}
+
 watch(employeeDetails, (newEmployeeDetails) => {
   if (newEmployeeDetails) {
     initialValues.value = {
