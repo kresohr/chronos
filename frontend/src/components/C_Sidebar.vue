@@ -11,11 +11,14 @@
     <C_SidebarLink to="/log" faType="fas" iconName="circle-plus"
       ><p class="sidebar__link">Add Log</p></C_SidebarLink
     >
-    <C_SidebarLink to="/projects" faType="fas" iconName="briefcase"
-      ><p class="sidebar__link">Projects</p></C_SidebarLink
-    >
     <C_SidebarLink to="/employees" faType="fas" iconName="user-group"
       ><p class="sidebar__link">Employees</p></C_SidebarLink
+    >
+    <C_SidebarLink to="/roles" faType="fas" iconName="fa-user-shield"
+      ><p class="sidebar__link">Roles</p></C_SidebarLink
+    >
+    <C_SidebarLink to="/projects" faType="fas" iconName="briefcase"
+      ><p class="sidebar__link">Projects</p></C_SidebarLink
     >
     <C_SidebarLink to="/reports" faType="fas" iconName="chart-column"
       ><p class="sidebar__link">Reports</p></C_SidebarLink
