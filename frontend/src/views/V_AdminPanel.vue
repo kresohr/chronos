@@ -14,6 +14,15 @@
         iconColor="#f1f1f1"
       />
       <C_DashboardCard
+        title="Total Roles"
+        value="27"
+        :icon="['fas', 'fa-user-shield']"
+        linkText="Manage Roles"
+        linkUrl="/roles"
+        iconBackgroundColor="#CBA9B5"
+        iconColor="#f1f1f1"
+      />
+      <C_DashboardCard
         title="Total Projects"
         value="10"
         :icon="['fas', 'suitcase']"
@@ -27,7 +36,7 @@
         value="621"
         :icon="['fas', 'clock']"
         linkText="View Statistics"
-        linkUrl="/project-statistics"
+        linkUrl="/statistics"
         iconBackgroundColor="#F4BB44"
         iconColor="#f1f1f1"
       />
