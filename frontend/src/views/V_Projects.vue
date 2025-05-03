@@ -26,7 +26,6 @@
         <Column field="name" header="Name" sortable></Column>
 
         <!-- TODO: Conditionally render if the person is admin & module is enabled -->
-        <!-- TODO: Implement a navigation to new edit page where projects can be modified or deleted -->
         <Column v-if="true" class="projects__edit-column" field="edit" header="Edit">
           <template #body="data">
             <router-link
