@@ -1,5 +1,6 @@
 <template>
   <!-- TODO: Guard route if user is not admin -->
+  <!-- TODO: Implement project removal button -->
 
   <h1>Manage Project</h1>
   <p>Modify {{ projectDetails?.name }} on this page</p>
@@ -26,7 +27,7 @@
       </Form>
     </div>
 
-    <!-- TODO: Implement removal method -->
+    <!-- TODO: Implement employee removal method -->
     <div class="manage-project">
       <h2>Employees on this project</h2>
 
