@@ -80,7 +80,7 @@ export class RolesService {
           user: true,
         },
       });
-      return users;
+      return users.map((data) => data.user);
     } catch (error) {
       if (error.code === 'P2025') {
         throw new NotFoundException(
