@@ -1,9 +1,9 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useToast } from 'primevue/usetoast'
-import type { Employee } from '@/types/EmployeeType'
-import type { Project } from '@/types/ProjectType'
-import type { Role } from '@/types/RoleType'
+import type { Employee } from '@/types/Employee'
+import type { Project } from '@/types/Project'
+import type { Role } from '@/types/Role'
 
 export const useEmployeesStore = defineStore('employees', () => {
   const toast = useToast()
