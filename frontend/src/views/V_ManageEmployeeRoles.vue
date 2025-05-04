@@ -65,7 +65,7 @@ import { Button } from 'primevue'
 import Dropdown from 'primevue/dropdown'
 import Listbox from 'primevue/listbox'
 import { useRolesStore } from '@/stores/roles'
-import type { Role } from '@/types/RoleType'
+import type { Role } from '@/types/Role'
 import ProgressSpinner from 'primevue/progressspinner'
 
 const employeeStore = useEmployeesStore()

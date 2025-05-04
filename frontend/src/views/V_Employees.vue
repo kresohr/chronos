@@ -151,10 +151,10 @@ import { onMounted, ref, watch } from 'vue'
 import { onUnmounted } from 'vue'
 import { useEmployeesStore } from '@/stores/employees'
 import Dialog from 'primevue/dialog'
-import type { Employee } from '@/types/EmployeeType'
-import type { Project } from '@/types/ProjectType'
+import type { Employee } from '@/types/Employee'
+import type { Project } from '@/types/Project'
 import router from '@/router'
-import type { Role } from '@/types/RoleType'
+import type { Role } from '@/types/Role'
 
 const employeeStore = useEmployeesStore()
 const windowWidth = ref(window.innerWidth)

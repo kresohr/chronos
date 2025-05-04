@@ -64,7 +64,7 @@ import router from '@/router'
 import { Button } from 'primevue'
 import Dropdown from 'primevue/dropdown'
 import Listbox from 'primevue/listbox'
-import type { Project } from '@/types/ProjectType'
+import type { Project } from '@/types/Project'
 import ProgressSpinner from 'primevue/progressspinner'
 import { useProjectsStore } from '@/stores/projects'
 
