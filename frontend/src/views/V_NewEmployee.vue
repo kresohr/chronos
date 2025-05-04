@@ -162,14 +162,16 @@ const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any })
     return
   }
 
-  await employeeStore.createEmployee(
-    values.firstname,
-    values.lastname,
-    values.email,
-    Number(values.role?.id) ?? null,
-    Number(values.project?.id) ?? null,
-    values.isadmin,
-  )
+  await employeeStore
+    .createEmployee(
+      values.firstname,
+      values.lastname,
+      values.email,
+      Number(values.role?.id) ?? null,
+      Number(values.project?.id) ?? null,
+      values.isadmin,
+    )
+    .then(() => router.push('/employees'))
 }
 
 onMounted(() => {
