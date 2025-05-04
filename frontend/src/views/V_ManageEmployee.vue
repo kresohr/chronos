@@ -126,8 +126,8 @@ import Checkbox from 'primevue/checkbox'
 import { Button, InputText, Message } from 'primevue'
 import { useToast } from 'primevue/usetoast'
 import { z } from 'zod'
-import type { Role } from '@/types/RoleType'
-import type { Project } from '@/types/ProjectType'
+import type { Role } from '@/types/Role'
+import type { Project } from '@/types/Project'
 import { useEmployeesStore } from '@/stores/employees'
 
 const employeeStore = useEmployeesStore()
