@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  Param,
+  ParseIntPipe,
   Post,
   UsePipes,
   ValidationPipe,
@@ -10,6 +12,7 @@ import {
 import { CreateRoleDto } from 'src/roles/dtos/CreateRole.dto';
 import { DeleteRoleDto } from 'src/roles/dtos/DeleteRole.dto';
 import { RolesService } from 'src/roles/services/roles.service';
+import { FetchEmployeesWithRoleDto } from '../dtos/FetchEmployeesWithRole.dto';
 
 @Controller('roles')
 export class RolesController {
@@ -17,6 +20,13 @@ export class RolesController {
   @Get()
   getRoles() {
     return this.rolesService.fetchRoles();
+  }
+
+  @Get(':id/employees')
+  @UsePipes(new ValidationPipe())
+  fetchEmployeesWithRole(@Param('id', ParseIntPipe) id: number) {
+    const dto: FetchEmployeesWithRoleDto = { roleId: id };
+    return this.rolesService.fetchEmployeesWithRole(dto);
   }
 
   @Post()
