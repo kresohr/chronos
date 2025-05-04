@@ -2,11 +2,12 @@
   <h1>Admin Panel</h1>
   <p>Manage projects and team members</p>
 
+  <!-- TODO: Implement spinner until data is ready -->
   <section>
     <div class="admin-panel">
       <C_DashboardCard
         title="Total Employees"
-        value="27"
+        :value="totalCount.totalUsers"
         :icon="['fas', 'user-group']"
         linkText="Manage Employees"
         linkUrl="/employees"
@@ -15,7 +16,7 @@
       />
       <C_DashboardCard
         title="Total Roles"
-        value="27"
+        :value="totalCount.totalRoles"
         :icon="['fas', 'fa-user-shield']"
         linkText="Manage Roles"
         linkUrl="/roles"
@@ -24,7 +25,7 @@
       />
       <C_DashboardCard
         title="Total Projects"
-        value="10"
+        :value="totalCount.totalProjects"
         :icon="['fas', 'suitcase']"
         linkText="Manage Projects"
         linkUrl="/projects"
@@ -33,7 +34,7 @@
       />
       <C_DashboardCard
         title="Total Hours This Week"
-        value="621"
+        :value="totalCount.totalEntries"
         :icon="['fas', 'clock']"
         linkText="View Statistics"
         linkUrl="/statistics"
@@ -46,6 +47,12 @@
 
 <script setup lang="ts">
 import C_DashboardCard from '@/components/C_DashboardCard.vue'
+import { useStatisticsStore } from '@/stores/statistics'
+import { computed } from 'vue'
+const statisticsStore = useStatisticsStore()
+const totalCount = computed(() => statisticsStore.totalCount)
+
+statisticsStore.getTotalCount()
 </script>
 
 <style scoped lang="scss">
