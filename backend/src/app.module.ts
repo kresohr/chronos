@@ -7,6 +7,7 @@ import { ProjectsModule } from './projects/projects.module';
 import { EmployeesModule } from './employees/employees.module';
 import { RolesModule } from './roles/roles.module';
 import { UsersModule } from './users/users.module';
+import { StatisticsModule } from './statistics/statistics.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UsersModule } from './users/users.module';
     EmployeesModule,
     RolesModule,
     UsersModule,
+    StatisticsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
