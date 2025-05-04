@@ -160,7 +160,6 @@ export const useProjectsStore = defineStore('projects', () => {
         throw new Error(`Unable to fetch project employees! ${response.statusText}`)
       }
       employeesOnProject.value = await response.json()
-      console.log('XXX: ', employeesOnProject.value)
     } catch (error: any) {
       console.error(error)
       toast.add({
