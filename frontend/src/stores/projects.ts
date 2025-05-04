@@ -1,5 +1,5 @@
-import type { Employee } from '@/types/EmployeeType'
-import type { Project } from '@/types/ProjectType'
+import type { Employee } from '@/types/Employee'
+import type { Project } from '@/types/Project'
 import { defineStore } from 'pinia'
 import { useToast } from 'primevue'
 import { ref } from 'vue'
