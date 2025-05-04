@@ -6,6 +6,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -14,6 +15,7 @@ import { DeleteRoleDto } from 'src/roles/dtos/DeleteRole.dto';
 import { RolesService } from 'src/roles/services/roles.service';
 import { FetchEmployeesWithRoleDto } from '../dtos/FetchEmployeesWithRole.dto';
 import { FetchRoleDetailsDto } from '../dtos/FetchRoleDetails.dto';
+import { ModifyRoleDto } from '../dtos/ModifyRole.dto';
 
 @Controller('roles')
 export class RolesController {
@@ -41,6 +43,16 @@ export class RolesController {
   @UsePipes(new ValidationPipe())
   createRole(@Body() data: CreateRoleDto) {
     return this.rolesService.createRole(data);
+  }
+
+  @Put(':id')
+  @UsePipes(new ValidationPipe())
+  modifyRole(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() data: ModifyRoleDto,
+  ) {
+    const dto: ModifyRoleDto = { id, name: data.name };
+    return this.rolesService.modifyRole(dto);
   }
 
   @Delete()
