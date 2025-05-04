@@ -4,6 +4,7 @@ import { Prisma } from '@prisma/client';
 import { FetchEmployeesWithRoleDto } from '../dtos/FetchEmployeesWithRole.dto';
 import { DeleteRoleDto } from '../dtos/DeleteRole.dto';
 import { FetchRoleDetailsDto } from '../dtos/FetchRoleDetails.dto';
+import { ModifyRoleDto } from '../dtos/ModifyRole.dto';
 
 @Injectable()
 export class RolesService {
@@ -32,6 +33,25 @@ export class RolesService {
 
   createRole(data: Prisma.RoleCreateInput) {
     return this.prisma.role.create({ data });
+  }
+
+  async modifyRole(data: ModifyRoleDto) {
+    try {
+      const modifiedRole = await this.prisma.role.update({
+        where: {
+          id: data.id,
+        },
+        data: {
+          name: data.name,
+        },
+      });
+      return modifiedRole;
+    } catch (error) {
+      if (error.code === 'P2025') {
+        throw new NotFoundException(`Role with id ${data.id} does not exist.`);
+      }
+      throw error;
+    }
   }
 
   async deleteRole(data: DeleteRoleDto) {
