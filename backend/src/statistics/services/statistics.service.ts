@@ -18,7 +18,7 @@ export class StatisticsService {
       return {
         totalUsers: userCount,
         totalRoles: roleCount,
-        totalProject: projectCount,
+        totalProjects: projectCount,
         totalEntries: entriesCount,
       };
     } catch (error) {
