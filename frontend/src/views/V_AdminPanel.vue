@@ -64,6 +64,8 @@ import C_DashboardCard from '@/components/C_DashboardCard.vue'
   }
 
   @media screen and (min-width: 900px) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     flex-direction: row;
     max-width: 760px;
   }

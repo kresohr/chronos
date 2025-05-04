@@ -38,6 +38,7 @@ defineProps<{
   border-radius: var(--border-radius);
   background-color: #ffffff;
   box-shadow: var(--box-shadow);
+  min-width: 230px;
   width: 100%;
 }
 
@@ -83,25 +84,5 @@ defineProps<{
   text-align: center;
   width: 100%;
   text-decoration: underline;
-}
-
-@media screen and (min-width: 900px) {
-  .dashboard-card {
-    flex-direction: row;
-    max-width: 600px;
-  }
-  .dashboard-card__content {
-    padding-left: var(--spacing-medium);
-  }
-  .dashboard-card__title,
-  .dashboard-card__value,
-  .dashboard-card__link {
-    text-align: start;
-    text-wrap: nowrap;
-  }
-
-  .dashboard-card__link {
-    margin-top: var(--spacing-medium);
-  }
 }
 </style>
