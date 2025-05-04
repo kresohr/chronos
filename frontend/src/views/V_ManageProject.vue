@@ -28,6 +28,7 @@
     </div>
 
     <!-- TODO: Implement employee removal method -->
+    <!-- TODO: Implement employee add method -->
     <div class="manage-project">
       <h2>Employees on this project</h2>
 
