@@ -28,6 +28,6 @@ export class RolesController {
   @Delete()
   @UsePipes(new ValidationPipe())
   DeleteRole(@Body() data: DeleteRoleDto) {
-    return this.rolesService.deleteRole(data.id);
+    return this.rolesService.deleteRole(data);
   }
 }
