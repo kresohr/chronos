@@ -13,6 +13,7 @@ import { CreateRoleDto } from 'src/roles/dtos/CreateRole.dto';
 import { DeleteRoleDto } from 'src/roles/dtos/DeleteRole.dto';
 import { RolesService } from 'src/roles/services/roles.service';
 import { FetchEmployeesWithRoleDto } from '../dtos/FetchEmployeesWithRole.dto';
+import { FetchRoleDetailsDto } from '../dtos/FetchRoleDetails.dto';
 
 @Controller('roles')
 export class RolesController {
@@ -20,6 +21,13 @@ export class RolesController {
   @Get()
   getRoles() {
     return this.rolesService.fetchRoles();
+  }
+
+  @Get(':id')
+  @UsePipes(new ValidationPipe())
+  fetchRoleDetails(@Param('id', ParseIntPipe) id: number) {
+    const dto: FetchRoleDetailsDto = { id };
+    return this.rolesService.fetchRoleDetails(dto);
   }
 
   @Get(':id/employees')
