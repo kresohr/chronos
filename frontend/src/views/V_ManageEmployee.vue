@@ -40,7 +40,7 @@
 
         <!-- Add conditional render if role is enabled as a module -->
         <FormField v-if="true" v-slot="$field" class="form-field">
-          <Dropdown
+          <Select
             v-model="selectedRole"
             name="role"
             :options="roles"
@@ -66,7 +66,7 @@
                 </button>
               </span>
             </template>
-          </Dropdown>
+          </Select>
           <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
             {{ $field.error?.message }}
           </Message>
@@ -74,7 +74,7 @@
 
         <!-- Add conditional render if project is enabled as a module -->
         <FormField v-if="true" v-slot="$field" class="form-field">
-          <Dropdown
+          <Select
             v-model="selectedProject"
             name="project"
             :options="projects"
@@ -100,7 +100,7 @@
                 </button>
               </span>
             </template>
-          </Dropdown>
+          </Select>
           <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
             {{ $field.error?.message }}
           </Message>
@@ -121,7 +121,7 @@ import { computed, onMounted, ref, watch } from 'vue'
 import router from '@/router'
 import { Form, FormField } from '@primevue/forms'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
-import Dropdown from 'primevue/dropdown'
+import Select from 'primevue/select'
 import Checkbox from 'primevue/checkbox'
 import { Button, InputText, Message } from 'primevue'
 import { useToast } from 'primevue/usetoast'

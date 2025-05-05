@@ -11,7 +11,7 @@
   <div v-if="!isFetchingEmployeeDetails">
     <div class="section--wrapper">
       <h2>Assign New Role</h2>
-      <Dropdown
+      <Select
         name="role"
         :options="availableRoles"
         optionLabel="name"
@@ -26,7 +26,7 @@
         <template #option="slotProps">
           {{ slotProps.option.name }}
         </template>
-      </Dropdown>
+      </Select>
 
       <Button :disabled="!selectedRole" label="Assign" @click="handleRoleAssign()" />
     </div>
@@ -62,7 +62,7 @@ import { computed, ref } from 'vue'
 import { useEmployeesStore } from '@/stores/employees'
 import router from '@/router'
 import { Button } from 'primevue'
-import Dropdown from 'primevue/dropdown'
+import Select from 'primevue/select'
 import Listbox from 'primevue/listbox'
 import { useRolesStore } from '@/stores/roles'
 import type { Role } from '@/types/Role'

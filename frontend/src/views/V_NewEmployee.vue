@@ -34,7 +34,7 @@
 
         <!-- Add conditional render if role is enabled as a module -->
         <FormField v-if="true" v-slot="$field" name="role" class="form-field">
-          <Dropdown
+          <Select
             v-model="selectedRole"
             :options="roles"
             optionLabel="name"
@@ -47,7 +47,7 @@
                 {{ slotProps.option.name }}
               </span>
             </template>
-          </Dropdown>
+          </Select>
           <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
             {{ $field.error?.message }}
           </Message>
@@ -55,7 +55,7 @@
 
         <!-- Add conditional render if project is enabled as a module -->
         <FormField v-if="true" v-slot="$field" name="project" class="form-field">
-          <Dropdown
+          <Select
             v-model="selectedProject"
             :options="projects"
             optionLabel="name"
@@ -68,7 +68,7 @@
                 {{ slotProps.option.name }}
               </span>
             </template>
-          </Dropdown>
+          </Select>
           <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
             {{ $field.error?.message }}
           </Message>
@@ -86,7 +86,7 @@
 
 <script setup lang="ts">
 import { Form, FormField } from '@primevue/forms'
-import Dropdown from 'primevue/dropdown'
+import Select from 'primevue/select'
 import Checkbox from 'primevue/checkbox'
 import { computed, onMounted, ref, watch } from 'vue'
 import { Button, InputText, Message } from 'primevue'
