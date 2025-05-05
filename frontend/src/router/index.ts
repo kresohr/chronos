@@ -12,6 +12,7 @@ import V_ManageEmployeeRoles from '@/views/V_ManageEmployeeRoles.vue'
 import V_ManageEmployeeProjects from '@/views/V_ManageEmployeeProjects.vue'
 import V_Roles from '@/views/V_Roles.vue'
 import V_ManageRole from '@/views/V_ManageRole.vue'
+import V_NewLog from '@/views/V_NewLog.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -80,6 +81,11 @@ const router = createRouter({
       path: '/employees/manage/:id/projects',
       name: 'manageemployeeprojects',
       component: V_ManageEmployeeProjects,
+    },
+    {
+      path: '/log/',
+      name: 'newlog',
+      component: V_NewLog,
     },
   ],
 })
