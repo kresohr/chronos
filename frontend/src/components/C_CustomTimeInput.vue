@@ -1,7 +1,11 @@
 <template>
   <div class="custom-time-input">
     <div class="custom-time-input--wrapper">
-      <button type="button" class="custom-time-input__button custom-time-input__button--increment">
+      <button
+        type="button"
+        class="custom-time-input__button custom-time-input__button--increment"
+        @click="handleTimeChange('hours', 'increment')"
+      >
         <fa-icon color="#f1f1f1" :icon="['fas', 'plus']" />
       </button>
       <input
@@ -10,16 +14,24 @@
         v-model="selectedHour"
         placeholder="H"
         max="23"
-        @input="handleInputField"
+        @input="handleTimeChange('hours')"
       />
-      <button type="button" class="custom-time-input__button custom-time-input__button--decrement">
+      <button
+        type="button"
+        class="custom-time-input__button custom-time-input__button--decrement"
+        @click="handleTimeChange('hours', 'decrement')"
+      >
         <fa-icon color="#f1f1f1" :icon="['fas', 'minus']" />
       </button>
       <label for="hour-input">Hrs</label>
     </div>
 
     <div class="custom-time-input--wrapper">
-      <button type="button" class="custom-time-input__button custom-time-input__button--increment">
+      <button
+        type="button"
+        class="custom-time-input__button custom-time-input__button--increment"
+        @click="handleTimeChange('minutes', 'increment')"
+      >
         <fa-icon color="#f1f1f1" :icon="['fas', 'plus']" />
       </button>
       <input
@@ -28,9 +40,13 @@
         v-model="selectedMinutes"
         placeholder="M"
         max="60"
-        @input="handleInputField"
+        @input="handleTimeChange('minutes')"
       />
-      <button type="button" class="custom-time-input__button custom-time-input__button--decrement">
+      <button
+        type="button"
+        class="custom-time-input__button custom-time-input__button--decrement"
+        @click="handleTimeChange('minutes', 'decrement')"
+      >
         <fa-icon color="#f1f1f1" :icon="['fas', 'minus']" />
       </button>
       <label for="minute-input">Min</label>
@@ -50,20 +66,30 @@ import { ref } from 'vue'
 const selectedHour = ref(8)
 const selectedMinutes = ref(0)
 
-/* Looks a little hacky but since I know it won't have more input fields than these two, I'll stick with it
- No need to separate this into generic function as it will hurt the readability of the code*/
-const handleInputField = () => {
-  if (!selectedHour.value) {
-    selectedHour.value = 0
+const handleTimeChange = (
+  selectedTime: 'hours' | 'minutes',
+  action?: 'increment' | 'decrement',
+) => {
+  const limits = {
+    hours: { min: 0, max: 23 },
+    minutes: { min: 0, max: 59 },
   }
-  if (!selectedMinutes.value) {
-    selectedMinutes.value = 0
+
+  const timeReference = selectedTime === 'hours' ? selectedHour : selectedMinutes
+  const { min, max } = limits[selectedTime]
+
+  if (action === 'increment' && timeReference.value < max) {
+    timeReference.value++
   }
-  if (selectedHour.value > 23) {
-    selectedHour.value = 23
+
+  if (action === 'decrement' && timeReference.value > min) {
+    timeReference.value--
   }
-  if (selectedMinutes.value > 59) {
-    selectedMinutes.value = 59
+
+  if (!timeReference.value || timeReference.value < min) {
+    timeReference.value = min
+  } else if (timeReference.value > max) {
+    timeReference.value = max
   }
 }
 </script>
