@@ -65,6 +65,7 @@ import { ref } from 'vue'
 
 const selectedHour = ref(8)
 const selectedMinutes = ref(0)
+const emit = defineEmits(['hours', 'minutes'])
 
 const handleTimeChange = (
   selectedTime: 'hours' | 'minutes',
@@ -91,7 +92,14 @@ const handleTimeChange = (
   } else if (timeReference.value > max) {
     timeReference.value = max
   }
+
+  emit('hours', selectedHour.value)
+  emit('minutes', selectedMinutes.value)
 }
+
+//TODO: Handle emit on initial component load.
+emit('hours', selectedHour.value)
+emit('minutes', selectedMinutes.value)
 </script>
 []
 
