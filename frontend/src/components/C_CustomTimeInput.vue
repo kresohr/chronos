@@ -2,7 +2,7 @@
   <div class="custom-time-input">
     <div class="custom-time-input--wrapper">
       <button type="button" class="custom-time-input__button custom-time-input__button--increment">
-        +
+        <fa-icon color="#f1f1f1" :icon="['fas', 'plus']" />
       </button>
       <input
         id="hour-input"
@@ -13,14 +13,14 @@
         @input="handleInputField"
       />
       <button type="button" class="custom-time-input__button custom-time-input__button--decrement">
-        -
+        <fa-icon color="#f1f1f1" :icon="['fas', 'minus']" />
       </button>
       <label for="hour-input">Hrs</label>
     </div>
 
     <div class="custom-time-input--wrapper">
       <button type="button" class="custom-time-input__button custom-time-input__button--increment">
-        +
+        <fa-icon color="#f1f1f1" :icon="['fas', 'plus']" />
       </button>
       <input
         id="minute-input"
@@ -31,7 +31,7 @@
         @input="handleInputField"
       />
       <button type="button" class="custom-time-input__button custom-time-input__button--decrement">
-        -
+        <fa-icon color="#f1f1f1" :icon="['fas', 'minus']" />
       </button>
       <label for="minute-input">Min</label>
     </div>
@@ -84,6 +84,9 @@ const handleInputField = () => {
   &__button {
     padding: var(--spacing-xsmall);
     border: 1px solid var(--border-color);
+    transition: 0.2s background-color ease-in-out;
+    background-color: var(--p-button-primary-background);
+
     cursor: pointer;
     &--increment {
       border-top-left-radius: var(--spacing-xsmall);
@@ -92,6 +95,10 @@ const handleInputField = () => {
     &--decrement {
       border-bottom-left-radius: var(--spacing-xsmall);
       border-bottom-right-radius: var(--spacing-xsmall);
+    }
+
+    &:hover {
+      background-color: var(--p-button-primary-hover-background);
     }
   }
 
@@ -105,7 +112,7 @@ input {
   padding: 8px;
   width: 40px;
   text-align: center;
-  border: 1px solid var(--border-color);
+  border: none;
 }
 
 input::-webkit-outer-spin-button,
