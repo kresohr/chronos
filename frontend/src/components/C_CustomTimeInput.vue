@@ -63,8 +63,19 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const selectedHour = ref(8)
-const selectedMinutes = ref(0)
+const props = defineProps({
+  selectedHour: {
+    type: Number,
+    required: true,
+  },
+  selectedMinutes: {
+    type: Number,
+    required: true,
+  },
+})
+
+const selectedHour = ref(props.selectedHour)
+const selectedMinutes = ref(props.selectedMinutes)
 const emit = defineEmits(['hours', 'minutes'])
 
 const handleTimeChange = (
@@ -96,10 +107,6 @@ const handleTimeChange = (
   emit('hours', selectedHour.value)
   emit('minutes', selectedMinutes.value)
 }
-
-//TODO: Handle emit on initial component load.
-emit('hours', selectedHour.value)
-emit('minutes', selectedMinutes.value)
 </script>
 []
 
