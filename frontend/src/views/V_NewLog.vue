@@ -44,19 +44,15 @@
 
         <FormField v-slot="$field" name="time" class="new-log__time--wrapper">
           <label for="time" class="new-log__time--label">3. Enter the amount of hours</label>
-          <DatePicker
-            id="time"
-            class="new-log__time--datepicker"
-            v-model="selectedTime"
-            showTime
-            hourFormat="24"
-            placeholder="Enter the time"
-            fluid
-            time-only
-          />
+          <CustomTimeInput
+            :selected-hour="selectedHour"
+            :selected-minutes="selectedMinutes"
+            @hours="(hours) => (selectedHour = hours)"
+            @minutes="(minutes) => (selectedMinutes = minutes)"
+          ></CustomTimeInput>
         </FormField>
 
-        <Button type="submit" label="Log" />
+        <Button :disabled="isDataInvalid" type="submit" label="Log" />
       </Form>
     </div>
   </section>
@@ -66,6 +62,7 @@
 import { Form, FormField } from '@primevue/forms'
 import Select from 'primevue/select'
 import DatePicker from 'primevue/datepicker'
+import CustomTimeInput from '@/components/C_CustomTimeInput.vue'
 import { computed, onMounted, ref } from 'vue'
 import { Button, Message } from 'primevue'
 import { z } from 'zod'
@@ -84,25 +81,50 @@ const zodSchema = z.object({
 const zodFormResolver = zodResolver(zodSchema)
 
 const initialValues = {
-  project: '',
+  project: {
+    id: null,
+  },
 }
 
-const selectedProject = ref()
+const selectedProject = ref<{ id: number } | null>(null)
 const projects = computed(() => projectsStore.allProjects)
-const selectedTime = ref()
 const selectedDate = ref()
+const selectedHour = ref(8)
+const selectedMinutes = ref(0)
+
+const isDataInvalid = computed((): boolean => {
+  if (selectedHour.value === 0 && selectedMinutes.value === 0) {
+    return true
+  }
+
+  if (!selectedProject.value) {
+    return true
+  }
+
+  if (!selectedDate.value) {
+    return true
+  }
+
+  return false
+})
 
 const onFormSubmit = async ({ valid, values }: { valid: boolean; values?: any }) => {
-  if (!valid || !values) {
+  if (!valid) {
     toast.add({
       severity: 'error',
       summary: 'Form validation failed.',
       life: 3000,
     })
     return
+  } else if (!values) {
+    toast.add({
+      severity: 'error',
+      summary: 'Please fill out all the fields',
+      life: 3000,
+    })
+  } else {
+    // TODO: Implement onFormSubmit method
   }
-
-  // TODO: Implement onFormSubmit method
 }
 
 onMounted(() => {
