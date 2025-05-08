@@ -18,7 +18,7 @@ While working for different clients and companies I’ve noticed a strange patte
 
 This tool is ideal for individual freelancers or small companies that wish to keep track of their work.
 
-Chronos is completely free and created as a part of a learning journey, there is no plan to monetize this project and it is forbidden to use it in commercial purposes. For detailed information on usage check LICENSE.txt
+Chronos is completely free and created as a part of a learning journey, there is no plan to monetize this project and it is forbidden to use it in commercial purposes. For detailed information on usage check [LICENSE.txt](https://github.com/kresohr/chronos/blob/master/LICENSE.txt)
 
 ## Tech stack behind Chronos
 
