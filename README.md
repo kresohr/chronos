@@ -16,6 +16,10 @@ My main goal behind for this project is to learn something new, build something 
 
 While working for different clients and companies I’ve noticed a strange pattern of them often using excel sheet to track hours, so I’ve decided to build an open-source dockerized app to track hours easily.
 
+This tool is ideal for individual freelancers or small companies that wish to keep track of their work.
+
+Chronos is completely free and created as a part of a learning journey, there is no plan to monetize this project and it is forbidden to use it in commercial purposes. For detailed information on usage check LICENSE.txt
+
 ## Tech stack behind Chronos
 
 - **Frontend** - [VueJS](https://vuejs.org/)
@@ -24,6 +28,7 @@ While working for different clients and companies I’ve noticed a strange patte
 - **DB** - [PostgreSQL](https://www.postgresql.org/) (Keycloak also uses its own instance of PostgreSQL through Docker)
 - **Docker** - [Docker](https://www.docker.com/) using Docker to containerize everything and to ease the process of running Chronos
 - **Icons** - [FontAwesome](https://docs.fontawesome.com/) using Font Awesome for icons across the project.
+- **UI Component Library** - [PrimeVue](https://primevue.org/) using PrimeVue for the majority of UI components
 
 ## Getting Started
 

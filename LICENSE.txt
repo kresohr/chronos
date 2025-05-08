@@ -1,0 +1,20 @@
+Copyright (c) 2025 Krešimir Iličić
+
+Permission is granted to use this software internally for tracking employee hours only, subject to the following conditions:
+
+1. **Use Restrictions**  
+   - This software **may NOT** be used by any enterprise entity or company that employs more than 50 employees.  
+   - Use is strictly limited to companies with 50 or fewer employees.
+
+2. **Prohibited Actions**  
+   You MAY NOT:  
+   - Modify, adapt, translate, or create derivative works based on this software.  
+   - Distribute, sublicense, rent, lease, sell, or commercially exploit this software in any form.  
+   - Use this software for any purpose other than internal employee hour tracking.
+
+3. **No Warranty**  
+   This software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement.  
+   In no event shall the author or copyright holder be liable for any claim, damages, or other liability arising from the use or inability to use this software.
+
+4. **Termination**  
+   Any use of this software in violation of the above terms will result in immediate termination of the license granted herein, and may subject the violator to legal action.
