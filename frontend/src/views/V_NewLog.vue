@@ -3,6 +3,7 @@
   <h1>Add Log</h1>
   <p>Keep track of time spent on each project</p>
 
+  <!-- TODO: Fix zod validation when writing text in search -->
   <section>
     <div class="new-log">
       <Form
