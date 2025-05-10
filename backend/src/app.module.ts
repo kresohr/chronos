@@ -8,6 +8,7 @@ import { EmployeesModule } from './employees/employees.module';
 import { RolesModule } from './roles/roles.module';
 import { UsersModule } from './users/users.module';
 import { StatisticsModule } from './statistics/statistics.module';
+import { EntriesModule } from './entries/entries.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { StatisticsModule } from './statistics/statistics.module';
     RolesModule,
     UsersModule,
     StatisticsModule,
+    EntriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
