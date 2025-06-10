@@ -23,23 +23,23 @@
 
   // Spacing
   --spacing-xsmall: #{variables.$spacing-xsmall}; // 6px
-  --spacing-small: #{variables.$spacing-small};  // 8px
+  --spacing-small: #{variables.$spacing-small}; // 8px
   --spacing-medium: #{variables.$spacing-medium}; // 16px
-  --spacing-large: #{variables.$spacing-large};  // 24px
+  --spacing-large: #{variables.$spacing-large}; // 24px
 
   // Fonts
-  --font-size-small: #{variables.$font-size-small};  // 14px
-  --font-size-base: #{variables.$font-size-base};    // 16px
+  --font-size-small: #{variables.$font-size-small}; // 14px
+  --font-size-base: #{variables.$font-size-base}; // 16px
   --font-size-medium: #{variables.$font-size-medium}; // 18px
-  --font-size-large: #{variables.$font-size-large};  // 24px
-  --font-size-xl: #{variables.$font-size-xl};        // 32px
+  --font-size-large: #{variables.$font-size-large}; // 24px
+  --font-size-xl: #{variables.$font-size-xl}; // 32px
 
   --font-weight-regular: #{variables.$font-weight-regular}; // 400
-  --font-weight-bold: #{variables.$font-weight-bold};       // 700
+  --font-weight-bold: #{variables.$font-weight-bold}; // 700
   --line-height: #{variables.$line-height}; // 1.5
 
   // PrimeVue Colors
-  --table-header-bg: #18181B;
+  --table-header-bg: #18181b;
   --table-background: #f3f3f3;
 }
 
@@ -59,6 +59,7 @@ html {
   padding: 2rem;
   font-weight: normal;
   text-align: center;
+  font-family: 'Geist', sans-serif;
 
   @media screen and (max-width: 1340px) {
     margin-left: 60px;
@@ -78,15 +79,19 @@ h1 {
   font-size: variables.$font-size-xl;
 }
 
-
-
 input:-webkit-autofill,
-  input:-webkit-autofill:focus {
-    transition:
-      background-color 600000s 0s,
-      color 600000s 0s;
-  }
+input:-webkit-autofill:focus {
+  transition:
+    background-color 600000s 0s,
+    color 600000s 0s;
+}
 
 input[data-autocompleted] {
   background-color: transparent !important;
+}
+
+.p-component,
+.p-datepicker-select-month,
+.p-datepicker-select-year {
+  font-family: 'Geist', sans-serif !important;
 }
