@@ -3,6 +3,29 @@
     <div class="custom-time-input--wrapper">
       <button
         type="button"
+        class="custom-time-input__button--shortcut"
+        @click="handleHoursShortcut(1)"
+      >
+        1
+      </button>
+      <button
+        type="button"
+        class="custom-time-input__button--shortcut"
+        @click="handleHoursShortcut(4)"
+      >
+        4
+      </button>
+      <button
+        type="button"
+        class="custom-time-input__button--shortcut"
+        @click="handleHoursShortcut(8)"
+      >
+        8
+      </button>
+    </div>
+    <div class="custom-time-input--wrapper">
+      <button
+        type="button"
         class="custom-time-input__button custom-time-input__button--increment"
         @click="handleTimeChange('hours', 'increment')"
       >
@@ -50,6 +73,29 @@
         <fa-icon color="#f1f1f1" :icon="['fas', 'minus']" />
       </button>
       <label for="minute-input">Min</label>
+    </div>
+    <div class="custom-time-input--wrapper">
+      <button
+        type="button"
+        class="custom-time-input__button--shortcut"
+        @click="handleMinutesShortcut(0)"
+      >
+        0
+      </button>
+      <button
+        type="button"
+        class="custom-time-input__button--shortcut"
+        @click="handleMinutesShortcut(15)"
+      >
+        15
+      </button>
+      <button
+        type="button"
+        class="custom-time-input__button--shortcut"
+        @click="handleMinutesShortcut(30)"
+      >
+        30
+      </button>
     </div>
   </div>
   <p class="custom-time-input__info">
@@ -107,8 +153,15 @@ const handleTimeChange = (
   emit('hours', selectedHour.value)
   emit('minutes', selectedMinutes.value)
 }
+
+const handleHoursShortcut = (hours: number) => {
+  selectedHour.value = hours
+}
+
+const handleMinutesShortcut = (minutes: number) => {
+  selectedMinutes.value = minutes
+}
 </script>
-[]
 
 <style scoped lang="scss">
 .custom-time-input {
@@ -136,6 +189,12 @@ const handleTimeChange = (
     &--decrement {
       border-bottom-left-radius: var(--spacing-xsmall);
       border-bottom-right-radius: var(--spacing-xsmall);
+    }
+    &--shortcut {
+      @extend .custom-time-input__button;
+      padding: var(--spacing-small) var(--spacing-medium);
+      min-width: 3rem;
+      color: #fbfbfb;
     }
 
     &:hover {
