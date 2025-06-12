@@ -13,9 +13,10 @@ export class EntriesService {
         userId: data.userId,
       },
       select: {
+        id: true,
         userId: true,
         timeLogged: true,
-        projectId: true,
+        project: true,
         updatedAt: true,
       },
     });
