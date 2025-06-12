@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer';
 import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateEntryDto {
@@ -11,6 +12,7 @@ export class CreateEntryDto {
 
   @IsNotEmpty()
   @IsDate()
+  @Type(() => Date)
   date: Date;
 
   @IsNotEmpty()
