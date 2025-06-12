@@ -32,6 +32,7 @@
     <div class="manage-project">
       <h2>Employees on this project</h2>
 
+      <!-- TODO: Implement removal -->
       <Listbox
         class="manage-project__listbox"
         :options="employeesOnProject"

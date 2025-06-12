@@ -32,7 +32,7 @@
 
     <div class="manage-role">
       <h2>Employees assigned to this role</h2>
-
+      <!-- TODO: Implement removal -->
       <Listbox
         class="manage-role__listbox"
         :options="employeesWithRole"
