@@ -12,8 +12,16 @@ export class EntriesService {
       where: {
         userId: data.userId,
       },
+      select: {
+        userId: true,
+        timeLogged: true,
+        projectId: true,
+        updatedAt: true,
+      },
     });
   }
 
-  async createLog(data: CreateEntryDto) {}
+  async createLog(data: CreateEntryDto) {
+    return this.prisma.entry.create({ data });
+  }
 }
