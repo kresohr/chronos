@@ -195,6 +195,7 @@ const handleMinutesShortcut = (minutes: number) => {
       padding: var(--spacing-small) var(--spacing-medium);
       min-width: 3rem;
       color: #fbfbfb;
+      border-radius: var(--spacing-xsmall);
     }
 
     &:hover {
