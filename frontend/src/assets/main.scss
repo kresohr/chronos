@@ -95,3 +95,11 @@ input[data-autocompleted] {
 .p-datepicker-select-year {
   font-family: 'Geist', sans-serif !important;
 }
+
+.p-datatable-column-header-content {
+  justify-content: center !important;
+}
+
+.p-datatable-tbody > tr > td {
+  text-align: center !important;
+}
